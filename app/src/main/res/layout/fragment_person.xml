@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F6F6F6">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/bg_profile">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <com.bieyitech.tapon.widgets.ShadeImageButton
+                    android:id="@+id/person_logout_btn"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:src="@drawable/ic_exit"
+                    android:tint="#FF0000"
+                    android:rotation="180"
+                    android:scaleType="centerInside"
+                    android:layout_marginStart="16dp"
+                    android:contentDescription="@string/img_desc"
+                    android:tooltipText="登出"
+                    app:sib_solidColor="@color/white"
+                    app:sib_shadeColor="@color/gray"
+                    app:sib_type="corner"
+                    app:sib_shadeLength="4dp"
+                    />
+
+                <com.bieyitech.tapon.widgets.ShadeImageButton
+                    android:layout_width="84dp"
+                    android:layout_height="84dp"
+                    android:src="@drawable/default_avatar"
+                    android:layout_gravity="center_horizontal"
+                    app:sib_solidColor="@color/white"
+                    app:sib_shadeColor="@color/gray"
+                    app:sib_type="circle"
+                    />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="6dp">
+
+                    <TextView
+                        android:id="@+id/person_nickname_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        tools:text="用户昵称"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+
+                    <TextView
+                        android:id="@+id/person_user_type_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/bg_user_type"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        tools:text="顾客"
+                        app:layout_constraintStart_toEndOf="@id/person_nickname_tv"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
+
+            <com.bieyitech.tapon.widgets.ShadeTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/person_my_reward_hint"
+                app:stv_solidColor="@color/white"
+                app:stv_shadeColor="@color/light_gray"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/person_reward_objects_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:spanCount="2"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/person_store_info_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <com.bieyitech.tapon.widgets.ShadeTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/person_my_store_hint"
+                app:stv_solidColor="@color/white"
+                app:stv_shadeColor="@color/light_gray"
+                />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:cardElevation="0dp"
+                app:contentPadding="8dp"
+                app:cardCornerRadius="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="8dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/person_store_name_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="12dp"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        tools:text="商铺名称"
+                        />
+
+                    <ImageView
+                        android:id="@+id/person_store_qrcode"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="16dp"
+                        android:contentDescription="@string/img_desc"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/qrcode_example"
+                        />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:columnCount="2"
+            >
+
+            <com.bieyitech.tapon.widgets.ShadeTextView
+                android:id="@+id/person_create_store_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:textAlignment="center"
+                android:layout_column="0"
+                android:layout_row="0"
+                android:layout_columnWeight="1"
+                android:text="@string/person_create_store_hint"
+                android:textColor="@color/white"
+                android:drawableTop="@drawable/ic_lock"
+                android:drawablePadding="12dp"
+                android:visibility="gone"
+                app:stv_solidColor="@color/colorAccent"
+                app:stv_shadeColor="@color/translucentColorAccent"
+                app:stv_shadeLength="12dp"
+                app:stv_yOffset="3dp"
+                tools:visibility="visible"
+                />
+
+            <com.bieyitech.tapon.widgets.ShadeTextView
+                android:id="@+id/person_decorate_store_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:textAlignment="center"
+                android:layout_column="0"
+                android:layout_row="1"
+                android:layout_columnWeight="1"
+                android:text="@string/person_modify_store_hint"
+                android:textColor="@color/white"
+                android:drawableTop="@drawable/ic_lock"
+                android:drawablePadding="12dp"
+                android:visibility="gone"
+                app:stv_solidColor="@color/colorAccent"
+                app:stv_shadeColor="@color/translucentColorAccent"
+                app:stv_shadeLength="12dp"
+                app:stv_yOffset="3dp"
+                tools:visibility="visible"
+                />
+
+            <com.bieyitech.tapon.widgets.ShadeTextView
+                android:id="@+id/person_put_box_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:textAlignment="center"
+                android:layout_column="1"
+                android:layout_row="1"
+                android:layout_columnWeight="1"
+                android:text="@string/person_put_box_hint"
+                android:textColor="@color/white"
+                android:drawableTop="@drawable/ic_lock"
+                android:drawablePadding="12dp"
+                android:visibility="gone"
+                app:stv_solidColor="@color/colorAccent"
+                app:stv_shadeColor="@color/translucentColorAccent"
+                app:stv_shadeLength="12dp"
+                app:stv_yOffset="3dp"
+                tools:visibility="visible"
+                />
+
+        </GridLayout>
+
+    </LinearLayout>
+
+</ScrollView>

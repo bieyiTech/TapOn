@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/login_app_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="84dp"
+        android:contentDescription="@string/img_desc"
+        android:src="@drawable/tapon_app_banner"
+        android:layout_marginTop="64dp"
+        android:transitionName="@string/share_app_logo"
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="56dp"
+        app:hintEnabled="false"
+        app:endIconMode="clear_text">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/login_username_et"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:inputType="text"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:drawableStart="@drawable/ic_person"
+            android:drawableTint="@color/edittext_start_icon_tint"
+            android:drawablePadding="8dp"
+            android:background="@drawable/bg_edittext_round_corner"
+            android:textCursorDrawable="@drawable/edittext_cursor"
+            android:transitionName="@string/share_username_et"
+            android:hint="@string/login_username_or_email_hint"
+            tools:text="用户名"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="16dp"
+        app:hintEnabled="false"
+        app:endIconMode="password_toggle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/login_password_et"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:background="@drawable/bg_edittext_round_corner"
+            android:drawableStart="@drawable/ic_lock"
+            android:drawableTint="@color/edittext_start_icon_tint"
+            android:drawablePadding="8dp"
+            android:hint="@string/login_password_hint"
+            android:inputType="textPassword"
+            android:textCursorDrawable="@drawable/edittext_cursor"
+            android:transitionName="@string/share_password_et"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.bieyitech.tapon.widgets.ShadeTextView
+        android:id="@+id/login_login_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="44dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:gravity="center"
+        android:text="@string/login_btn_text"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textAllCaps="true"
+        app:stv_radius="12dp"
+        app:stv_solidColor="@color/colorAccent"
+        app:stv_shadeColor="@color/translucentColorAccent"
+        />
+
+    <com.bieyitech.tapon.widgets.ShadeTextView
+        android:id="@+id/login_register_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:transitionName="@string/share_register_btn"
+        android:text="@string/register_btn_text"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textAllCaps="true"
+        app:stv_radius="12dp"
+        app:stv_solidColor="@color/white"
+        app:stv_shadeColor="#EEE"
+        />
+
+</LinearLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TapOn</string>
+    <string name="img_desc">图片</string>
+    <string name="login_btn_text">登录</string>
+    <string name="login_password_hint">输入密码</string>
+    <string name="login_username_or_email_hint">输入用户名</string>
+    <string name="login_wrong_string_hint">用户名或密码不能为空</string>
+    <string name="no_permission_text">请求必要权限</string>
+    <string name="register_btn_text">注册</string>
+    <string name="register_confirm_password_hint">再次输入密码</string>
+    <string name="register_create_account_text">创建账户</string>
+    <string name="register_email_hint">输入邮箱</string>
+    <string name="register_password_hint">输入密码</string>
+    <string name="register_username_hint">输入用户名</string>
+    <string name="title_dashboard">仪表盘</string>
+    <string name="title_home">主页</string>
+    <string name="title_person">我的</string>
+    <string name="wrong_email_hint">邮箱格式错误</string>
+    <string name="wrong_password_same_hint">两次输入的密码不同</string>
+    <string name="wrong_password_length_hint">密码长度至少8位</string>
+    <string name="wrong_username_hint">用户名不能包含@/</string>
+    <string name="wrong_password_blank_hint">密码不能包含空格</string>
+    <string name="store_shop_name_title">欢迎来到商铺 <b>%1$s</b></string>
+    <string name="qrcode_scan_again">重新扫码</string>
+    <string name="store_find_box_text">寻找宝箱</string>
+    <string name="person_my_reward_hint">我的奖品（0）</string>
+    <string name="person_create_store_hint">创建商铺</string>
+    <string name="person_put_box_hint">放置奖品</string>
+    <string name="person_modify_store_hint">修葺商铺</string>
+    <string name="person_my_store_hint">我的商铺</string>
+    <string name="put_box_upload_hint">上传</string>
+    <string name="put_box_enter_put_hint">放置宝箱</string>
+    <string name="put_box_reward_name_hint">输入奖品名称</string>
+    <string name="put_box_reward_intro_hint">输入奖品简介</string>
+    <string name="put_box_info_title">填写奖品信息</string>
+    <string name="put_box_store_name_text">商铺：%1$s</string>
+    <string name="store_store_rewards_title">商铺奖品（0）</string>
+    <string name="store_object_find_btn_hint">Find the reward</string>
+    <string name="reward_object_store_name_hint">商铺：%1$s</string>
+</resources>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/white">
+
+    <FrameLayout
+        android:id="@+id/put_box_ar_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/put_box_ar_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+<!--        <fragment-->
+<!--            android:name="com.bieyitech.tapon.ui.ar.CloudAnchorArFragment"-->
+<!--            android:id="@+id/put_box_ar_fragment"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent" />-->
+
+        <ImageView
+            android:id="@+id/put_box_help_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:layout_gravity="end"
+            android:paddingTop="30dp"
+            android:src="@drawable/ic_help_outline"
+            android:contentDescription="@string/img_desc"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            />
+
+        <com.bieyitech.tapon.widgets.ShadeTextView
+            android:id="@+id/put_box_upload_btn"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:padding="4dp"
+            android:layout_marginBottom="24dp"
+            android:drawableTop="@drawable/ic_cloud_upload"
+            android:drawableTint="@color/black"
+            android:drawablePadding="4dp"
+            android:text="@string/put_box_upload_hint"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:fullRoundCorner="true"
+            app:stv_solidColor="@color/white"
+            app:stv_shadeColor="@color/gray"
+            app:stv_shadeLength="12dp"
+            app:stv_yOffset="2dp"
+            />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/put_box_info_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="30dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/put_box_store_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="4dp"
+                android:gravity="center"
+                android:drawableStart="@drawable/ic_home_black_24dp"
+                android:drawablePadding="4dp"
+                android:text="@string/put_box_store_name_text"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:layout_gravity="start"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/put_box_info_title"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <!-- StoreObject名称 -->
+
+            <EditText
+                android:id="@+id/put_box_object_name_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_edit"
+                android:drawableTint="#CCC"
+                android:background="@null"
+                android:hint="@string/put_box_reward_name_hint"
+                android:drawablePadding="8dp"
+                android:textSize="16sp"
+                android:minHeight="48dp"
+                android:maxLines="3"
+                android:inputType="textMultiLine"
+                android:paddingBottom="4dp"
+                android:maxLength="60"
+                />
+
+            <!-- StoreObject简介 -->
+            <EditText
+                android:id="@+id/put_box_object_intro_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="@string/put_box_reward_intro_hint"
+                android:minLines="6"
+                android:textSize="14sp"
+                android:paddingStart="32dp"
+                android:paddingEnd="0dp"
+                android:gravity="top"
+                android:layout_marginBottom="24dp"
+                android:lineSpacingExtra="2dp"
+                android:ellipsize="end"
+                android:maxLength="400"
+                tools:text="@string/tool_long_text"
+                />
+
+        </LinearLayout>
+
+        <com.bieyitech.tapon.widgets.ShadeTextView
+            android:id="@+id/put_box_enter_put_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:padding="4dp"
+            android:layout_marginBottom="24dp"
+            android:drawableEnd="@drawable/ic_arrow_forward"
+            android:drawableTint="@color/black"
+            android:drawablePadding="4dp"
+            android:text="@string/put_box_enter_put_hint"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            tools:visibility="visible"
+            app:fullRoundCorner="true"
+            app:stv_solidColor="@color/white"
+            app:stv_shadeColor="@color/gray"
+            app:stv_shadeLength="8dp"
+            />
+
+    </FrameLayout>
+
+
+</FrameLayout>

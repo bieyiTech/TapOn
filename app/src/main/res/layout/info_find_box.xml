@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:gravity="center"
+    android:background="#6A26C6DA">
+
+    <ImageView
+        android:id="@+id/info_treasure_img"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/treasure"
+        android:contentDescription="@string/app_name"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/info_text"
+        android:textColor="#000"
+        android:textSize="12sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        />
+
+</LinearLayout>

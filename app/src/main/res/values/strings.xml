@@ -1,0 +1,79 @@
+<resources>
+    <string name="app_name">TapOn</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_person">My</string>
+
+    <!-- 其他字符 -->
+    <string name="no_permission_text">Request needed permissions</string>
+    <string name="img_desc">An Image</string>
+    <string name="info_text" translatable="false">获得优惠券！</string>
+
+    <!-- 登录活动相关字符串 -->
+    <string name="login_username_or_email_hint">Username</string>
+    <string name="login_password_hint">Enter password</string>
+    <string name="login_btn_text">Login</string>
+    <string name="login_wrong_string_hint">Username or password should not be empty</string>
+    <string name="register_btn_text">Sign Up</string>
+
+    <!-- 注册活动相关字符串 -->
+    <string name="register_username_hint">Enter username</string>
+    <string name="register_email_hint">Enter email</string>
+    <string name="register_password_hint">Enter password</string>
+    <string name="register_confirm_password_hint">Enter password again</string>
+    <string name="register_create_account_text">Create account</string>
+    <string name="wrong_username_hint">Username contains @/</string>
+    <string name="wrong_email_hint">Wrong email</string>
+    <string name="wrong_password_same_hint">Two passwords aren\'t the same.</string>
+    <string name="wrong_password_length_hint">Password\'s length should >= 8.</string>
+    <string name="wrong_password_blank_hint">Password should contain no blanks.</string>
+
+    <!-- 共享元素动画字符串 -->
+    <string name="share_register_btn" translatable="false">ShareRegister</string>
+    <string name="share_username_et" translatable="false">ShareUsernameEt</string>
+    <string name="share_password_et" translatable="false">SharePassword</string>
+    <string name="share_app_logo" translatable="false">ShareLogo</string>
+    
+    <!-- StoreFragment相关 -->
+    <string name="store_shop_name_title">Welcome to store <b>%1$s</b>!</string>
+    <string name="store_find_box_text">Find a treasure box</string>
+    <string name="store_store_rewards_title">Store\'s rewards(0)</string>
+
+    <!-- QRCodeFragment相关 -->
+    <string name="qrcode_scan_again">Scan again</string>
+
+    <!-- PersonFragment相关 -->
+    <string name="person_my_reward_hint">My rewards(0)</string>
+    <string name="person_create_store_hint">Create a shop</string>
+    <string name="person_modify_store_hint">Decorate the shop</string>
+    <string name="person_put_box_hint">Put a reward</string>
+    <string name="person_my_store_hint">My store</string>
+
+    <!-- Bmob相关 -->
+    <string name="bmob_delete_success_text" translatable="false">删除成功</string>
+    <string name="bmob_delete_failure_text" translatable="false">删除失败</string>
+    <string name="bmob_save_success_text" translatable="false">保存成功</string>
+    <string name="bmob_save_failure_text" translatable="false">保存失败</string>
+    <string name="bmob_update_success_text" translatable="false">更新成功</string>
+    <string name="bmob_update_failure_text" translatable="false">更新失败</string>
+
+    <!-- PutTreasureBoxActivity相关 -->
+    <string name="put_box_upload_hint">Upload</string>
+    <string name="put_box_enter_put_hint">Put a reward</string>
+    <string name="put_box_reward_name_hint">Enter reward\'s name</string>
+    <string name="put_box_reward_intro_hint">Enter reward\'s brief</string>
+    <string name="put_box_info_title">Fill in reward\'s info</string>
+    <string name="put_box_store_name_text">Store：%1$s</string>
+
+    <!-- item_store_object相关 -->
+    <string name="store_object_find_btn_hint">Find the reward</string>
+
+    <!-- item_reward_object相关 -->
+    <string name="reward_object_store_name_hint">Store: %1$s</string>
+
+
+    <string name="tool_short_text" translatable="false">时钟滴答敲过零点，除夕到了。眼前，打一句“除夕快乐”，饱含着祝福的话语从指尖流泻，穿透屏幕，往彼岸飞去。你和谁互道“快乐”呢？那一定是你在意也在意你的人儿吧。</string>
+    <string name="tool_long_text" translatable="false">时钟滴答敲过零点，除夕到了。眼前，打一句“除夕快乐”，饱含着祝福的话语从指尖流泻，穿透屏幕，往彼岸飞去。你和谁互道“快乐”呢？那一定是你在意也在意你的人儿吧。
+        时钟滴答敲过零点，除夕到了。窗外，远处，响起熟悉的鞭炮声，此起彼伏。“爆竹声中一岁除”。不管你愿不愿意，这一岁已转身离去，不会回头。
+        时钟滴答敲过零点，除夕到了。门外，铁灶，把把贡银堆起旺火。撕下的旧楹联、旧年的旧物也被扔进火堆中，付诸一炬。过去的事物，在火的碎星里，慢慢地黯淡，消失。过去的事物，在火的碎星里，慢慢地黯淡，消失。</string>
+</resources>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#4145EB</color>
+
+    <color name="translucentColorAccent">#A34145EB</color>
+    <color name="translucentLightColorAccent">#524145EB</color>
+
+    <!-- 基本颜色 -->
+    <color name="white">#FFF</color>
+    <color name="black">#000</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="red">#FF3737</color>
+    <color name="gray">#CCC</color>
+    <color name="light_gray">#EEE</color>
+    <color name="dark_gray">#8B8B8B</color>
+
+    <!-- 特定颜色 -->
+    <color name="edittext_start_icon_tint">#5F5F5F</color>
+</resources>

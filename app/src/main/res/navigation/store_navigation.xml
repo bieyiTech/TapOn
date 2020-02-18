@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/store_navigation"
+    app:startDestination="@id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.bieyitech.tapon.ui.store.StoreFragment"
+        android:label="StoreFragment"
+        tools:layout="@layout/fragment_store"
+        >
+        <argument
+            android:name="store_code"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_person"
+        android:name="com.bieyitech.tapon.ui.notifications.PersonFragment"
+        android:label="PersonFragment"
+        tools:layout="@layout/fragment_person"
+        />
+
+</navigation>

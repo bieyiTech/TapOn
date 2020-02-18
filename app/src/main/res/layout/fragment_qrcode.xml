@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <cn.bingoogolapple.qrcode.zxing.ZXingView
+        android:id="@+id/home_zxing_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:qrcv_topOffset="150dp"
+        app:qrcv_cornerSize="0dp"
+        app:qrcv_cornerLength="0dp"
+        app:qrcv_borderSize="0dp"
+        app:qrcv_rectWidth="300dp"
+        app:qrcv_qrCodeTipText="扫描二维码进入商铺"
+        app:qrcv_tipTextMargin="32dp"
+        app:qrcv_tipTextSize="16sp"
+        app:qrcv_scanLineSize="1.5dp"
+        app:qrcv_maskColor="@color/transparent"
+        app:qrcv_isShowLocationPoint="true"
+        app:qrcv_isAutoZoom="true"
+        />
+
+    <Button
+        android:id="@+id/qrcode_scan_again_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:background="@drawable/btn_normal"
+        android:layout_gravity="center"
+        android:text="@string/qrcode_scan_again"
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
+
+</FrameLayout>

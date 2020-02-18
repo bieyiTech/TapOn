@@ -1,0 +1,127 @@
+{
+  "project_info": {
+    "project_number": "72025138059",
+    "firebase_url": "https://cloud-anchor-java-cc93c.firebaseio.com",
+    "project_id": "cloud-anchor-java-cc93c",
+    "storage_bucket": "cloud-anchor-java-cc93c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72025138059:android:6e48e90ec1583e6769858e",
+        "android_client_info": {
+          "package_name": "com.bieyitech.tapon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "72025138059-p5s7c6vjv7olja60fkm1c8tlonftd16e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnmgxs1jQt9xgRvhqpRAlRZYZP465etIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "72025138059-p5s7c6vjv7olja60fkm1c8tlonftd16e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72025138059:android:f617885d2ce7e47969858e",
+        "android_client_info": {
+          "package_name": "com.bieyitech.treasureboxdemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "72025138059-p5s7c6vjv7olja60fkm1c8tlonftd16e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnmgxs1jQt9xgRvhqpRAlRZYZP465etIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "72025138059-p5s7c6vjv7olja60fkm1c8tlonftd16e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72025138059:android:954338d95868a3bf69858e",
+        "android_client_info": {
+          "package_name": "com.bieyitech.treasureboxdemo2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "72025138059-p5s7c6vjv7olja60fkm1c8tlonftd16e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnmgxs1jQt9xgRvhqpRAlRZYZP465etIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "72025138059-p5s7c6vjv7olja60fkm1c8tlonftd16e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72025138059:android:0717e3ecd93c320769858e",
+        "android_client_info": {
+          "package_name": "com.google.ar.core.examples.java.cloudanchor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "72025138059-p5s7c6vjv7olja60fkm1c8tlonftd16e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnmgxs1jQt9xgRvhqpRAlRZYZP465etIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "72025138059-p5s7c6vjv7olja60fkm1c8tlonftd16e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

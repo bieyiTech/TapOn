@@ -1,0 +1,49 @@
+{
+  materials: [
+    {
+      name: 'lambert2SG',
+      parameters: [
+        {
+          baseColor: '13449_Treasure_Chest_Diffuse',
+        },
+        {
+          baseColorTint: [
+            1,
+            1,
+            1,
+            1,
+          ],
+        },
+        {
+          metallic: 0,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/obj_material.sfm',
+    },
+  ],
+  model: {
+    attributes: [
+      'Position',
+      'TexCoord',
+      'Orientation',
+    ],
+    collision: {},
+    file: 'sampledata/models/treasurebox.obj',
+    name: 'treasurebox',
+    recenter: 'root',
+  },
+  samplers: [
+    {
+      file: 'sampledata/models\\13449_Treasure_Chest_Diffuse.jpg',
+      name: '13449_Treasure_Chest_Diffuse',
+      pipeline_name: '13449_Treasure_Chest_Diffuse.jpg',
+    },
+  ],
+  version: '0.54:2',
+}
