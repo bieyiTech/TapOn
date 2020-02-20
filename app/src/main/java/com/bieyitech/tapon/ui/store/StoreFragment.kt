@@ -44,6 +44,7 @@ class StoreFragment : Fragment() {
     }
 
     // UI控件
+    private lateinit var storeRewardsTitle: ShadeTextView
     private lateinit var storeNameTv: TextView
     private lateinit var storeObjectsRv: RecyclerView
     private lateinit var waitProgressDialog: WaitProgressDialog
@@ -66,6 +67,7 @@ class StoreFragment : Fragment() {
     ): View? = inflater.inflate(R.layout.fragment_store, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        storeRewardsTitle = view.findViewById(R.id.store_rewards_title)
         storeNameTv = view.findViewById(R.id.store_shop_name)
         storeObjectsRv = view.findViewById(R.id.store_store_rewards_rv)
 
@@ -123,6 +125,9 @@ class StoreFragment : Fragment() {
      * 填充商铺奖品列表
      */
     private fun fillStoreObjectsContent(objectList: MutableList<StoreObject>) {
+        // 数量
+        storeRewardsTitle.text = resources.getString(R.string.store_store_rewards_title, objectList.size)
+        // 列表
         storeObjectsRv.adapter = object : CommonAdapter<StoreObject>(requireContext(), objectList, R.layout.item_store_object) {
             override fun bindData(holder: CommonViewHolder, data: StoreObject, position: Int) {
                 with(holder) {
@@ -131,7 +136,7 @@ class StoreFragment : Fragment() {
                 }
                 with(holder.itemView) {
                     findViewById<ShadeTextView>(R.id.store_object_find_btn).enableOnPressScaleTouchListener {
-                        startActivity(FindTreasureBoxActivity.newIntent(requireContext(), data.objectCode))
+                        startActivity(FindTreasureBoxActivity.newIntent(requireContext(), data))
                     }
                 }
             }

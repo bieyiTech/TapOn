@@ -37,13 +37,13 @@
     <!-- StoreFragment相关 -->
     <string name="store_shop_name_title">Welcome to store <b>%1$s</b>!</string>
     <string name="store_find_box_text">Find a treasure box</string>
-    <string name="store_store_rewards_title">Store\'s rewards(0)</string>
+    <string name="store_store_rewards_title">Store\'s rewards(%1$d)</string>
 
     <!-- QRCodeFragment相关 -->
     <string name="qrcode_scan_again">Scan again</string>
 
     <!-- PersonFragment相关 -->
-    <string name="person_my_reward_hint">My rewards(0)</string>
+    <string name="person_my_reward_hint">My rewards(%1$d)</string>
     <string name="person_create_store_hint">Create a shop</string>
     <string name="person_modify_store_hint">Decorate the shop</string>
     <string name="person_put_box_hint">Put a reward</string>

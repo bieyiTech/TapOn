@@ -24,7 +24,7 @@
     <string name="store_shop_name_title">欢迎来到商铺 <b>%1$s</b></string>
     <string name="qrcode_scan_again">重新扫码</string>
     <string name="store_find_box_text">寻找宝箱</string>
-    <string name="person_my_reward_hint">我的奖品（0）</string>
+    <string name="person_my_reward_hint">我的奖品（%1$d）</string>
     <string name="person_create_store_hint">创建商铺</string>
     <string name="person_put_box_hint">放置奖品</string>
     <string name="person_modify_store_hint">修葺商铺</string>
@@ -35,7 +35,7 @@
     <string name="put_box_reward_intro_hint">输入奖品简介</string>
     <string name="put_box_info_title">填写奖品信息</string>
     <string name="put_box_store_name_text">商铺：%1$s</string>
-    <string name="store_store_rewards_title">商铺奖品（0）</string>
-    <string name="store_object_find_btn_hint">Find the reward</string>
+    <string name="store_store_rewards_title">商铺奖品（%1$d）</string>
+    <string name="store_object_find_btn_hint">寻找奖品</string>
     <string name="reward_object_store_name_hint">商铺：%1$s</string>
 </resources>

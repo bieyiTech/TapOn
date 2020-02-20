@@ -16,8 +16,13 @@ import android.widget.ImageView
 import androidx.annotation.GuardedBy
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.util.Preconditions
+import cn.bmob.v3.BmobUser
+import cn.bmob.v3.exception.BmobException
+import cn.bmob.v3.listener.SaveListener
+import com.bieyitech.tapon.bmob.RewardObject
 import com.bieyitech.tapon.bmob.Store
 import com.bieyitech.tapon.bmob.StoreObject
+import com.bieyitech.tapon.bmob.TaponUser
 import com.bieyitech.tapon.helpers.SnackbarHelper
 import com.bieyitech.tapon.helpers.printLog
 import com.bieyitech.tapon.helpers.showToast
@@ -39,11 +44,11 @@ class FindTreasureBoxActivity : AppCompatActivity() {
 
     companion object {
         private const val MIN_OPENGL_VERSION = 3.0
-        private const val EXTRA_OBJECT_CODE = "ObjectCode"
+        private const val EXTRA_STORE_OBJECT = "StoreObject"
 
-        fun newIntent(context: Context, objectCode: Int) = Intent(context, FindTreasureBoxActivity::class.java)
+        fun newIntent(context: Context, storeObject: StoreObject) = Intent(context, FindTreasureBoxActivity::class.java)
             .apply {
-                putExtra(EXTRA_OBJECT_CODE, objectCode)
+                putExtra(EXTRA_STORE_OBJECT, storeObject)
             }
     }
 
@@ -73,6 +78,7 @@ class FindTreasureBoxActivity : AppCompatActivity() {
     // 底部通知条，商铺奖品代码
     private val snackbarHelper = SnackbarHelper()
     private var objectCode = StoreObject.INVALID_OBJECT_CODE
+    private lateinit var storeObject: StoreObject
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,7 +89,8 @@ class FindTreasureBoxActivity : AppCompatActivity() {
         setContentView(R.layout.activity_find_treasure_box)
 
         // 获取商铺代码
-        objectCode = intent.getIntExtra(EXTRA_OBJECT_CODE, -1)
+        storeObject = intent.getSerializableExtra(EXTRA_STORE_OBJECT) as StoreObject
+        objectCode = storeObject.objectCode
         if(objectCode == StoreObject.INVALID_OBJECT_CODE) {
             showToast("无效奖品代码")
             finish()
@@ -226,12 +233,34 @@ class FindTreasureBoxActivity : AppCompatActivity() {
                         })
                         modelAnimator.start() // 播放动画
                         showToast("打开宝箱！！！")
+                        // 保存奖品
+                        saveRewardObject()
                     }else{
                         showToast("宝箱已打开。")
                     }
                 }
             }
         }
+    }
+
+    /**
+     * 保存奖品信息
+     */
+    private fun saveRewardObject() {
+        RewardObject(
+            BmobUser.getCurrentUser(TaponUser::class.java),
+            storeObject
+        ).save(object : SaveListener<String>() {
+            override fun done(p0: String?, p1: BmobException?) {
+                if(p1 == null){
+                    showToast(R.string.bmob_save_success_text)
+                    finish()
+                }else{
+                    showToast(R.string.bmob_save_failure_text)
+                    printLog("保存失败：$p1")
+                }
+            }
+        })
     }
 
     // 解析云锚点状态的回调函数类

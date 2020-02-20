@@ -60,6 +60,7 @@ class PersonFragment : Fragment() {
     private lateinit var storeInfoContainer: LinearLayout
     private lateinit var storeNameTv: TextView
     private lateinit var storeQrCodeImg: ImageView
+    private lateinit var myRewardsTitle: ShadeTextView
     private lateinit var rewardObjectsRv: RecyclerView
 
     override fun onCreateView(
@@ -78,6 +79,7 @@ class PersonFragment : Fragment() {
         storeInfoContainer = view.findViewById(R.id.person_store_info_container)
         storeNameTv = view.findViewById(R.id.person_store_name_tv)
         storeQrCodeImg = view.findViewById(R.id.person_store_qrcode)
+        myRewardsTitle = view.findViewById(R.id.person_my_rewards_title)
         rewardObjectsRv = view.findViewById(R.id.person_reward_objects_rv)
 
         setLayoutVisibility()
@@ -163,6 +165,9 @@ class PersonFragment : Fragment() {
      * 填充奖品信息
      */
     private fun fillRewardObjectsContent(rewardList: MutableList<RewardObject>) {
+        // 数量
+        myRewardsTitle.text = resources.getString(R.string.person_my_reward_hint, rewardList.size)
+        // 列表
         rewardObjectsRv.adapter = object : CommonAdapter<RewardObject>(requireContext(), rewardList, R.layout.item_reward_object) {
             override fun bindData(holder: CommonViewHolder, data: RewardObject, position: Int) {
                 with(holder){
