@@ -124,3 +124,15 @@ inline fun <reified T> T?.doIfNotNull(thing: (T) -> Unit){
         thing(this)
     }
 }
+
+// 其他函数
+fun checkState(state: Boolean, msg: String) {
+    if(!state) {
+        throw IllegalStateException(msg)
+    }
+}
+fun<T> checkNotNull(obj: T?, msg: String) {
+    if(obj == null){
+        throw NullPointerException(msg)
+    }
+}

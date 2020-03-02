@@ -1,0 +1,6 @@
+2020.02.29
+- 因为Snackbar有时会缺失一部分，所以用TextView替代。
+
+2020.03.02
+- 重新设计“我的”界面，改用ViewPager实现
+- 引入ViewBinding和DataBinding简化代码

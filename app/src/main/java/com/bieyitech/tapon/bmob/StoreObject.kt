@@ -1,6 +1,13 @@
 package com.bieyitech.tapon.bmob
 
+import android.content.Context
 import cn.bmob.v3.BmobObject
+import cn.bmob.v3.exception.BmobException
+import cn.bmob.v3.listener.UpdateListener
+import com.bieyitech.tapon.R
+import com.bieyitech.tapon.helpers.printLog
+import com.bieyitech.tapon.helpers.showToast
+import com.bieyitech.tapon.widgets.WaitProgressDialog
 
 /**
  * 放置在商铺中物品（如宝箱），一个商铺可以有很多个物品
@@ -17,5 +24,23 @@ data class StoreObject(var user: TaponUser,     // 所属用户
     }
 
     constructor(): this(TaponUser(), Store(), -1, "", "")
+
+    // 删除
+    fun deleteStoreObject(context: Context, onSuccess: () -> Unit){
+        val waitProgressDialog = WaitProgressDialog(context).also { it.show() }
+        delete(object : UpdateListener() {
+            override fun done(p0: BmobException?) {
+                waitProgressDialog.dismiss()
+                if(p0 == null){
+                    context.showToast(R.string.bmob_delete_success_text)
+                    onSuccess()
+                    context.printLog("删除成功：${this@StoreObject}")
+                }else{
+                    context.showToast(R.string.bmob_delete_failure_text)
+                    context.printLog("删除失败：$p0")
+                }
+            }
+        })
+    }
 
 }

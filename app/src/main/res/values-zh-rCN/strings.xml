@@ -21,7 +21,7 @@
     <string name="wrong_password_length_hint">密码长度至少8位</string>
     <string name="wrong_username_hint">用户名不能包含@/</string>
     <string name="wrong_password_blank_hint">密码不能包含空格</string>
-    <string name="store_shop_name_title">欢迎来到商铺 <b>%1$s</b></string>
+    <string name="store_shop_name_title">欢迎来到商铺-%1$s</string>
     <string name="qrcode_scan_again">重新扫码</string>
     <string name="store_find_box_text">寻找宝箱</string>
     <string name="person_my_reward_hint">我的奖品（%1$d）</string>
@@ -38,4 +38,6 @@
     <string name="store_store_rewards_title">商铺奖品（%1$d）</string>
     <string name="store_object_find_btn_hint">寻找奖品</string>
     <string name="reward_object_store_name_hint">商铺：%1$s</string>
+    <string name="find_box_save_hint">保存奖品</string>
+    <string name="store_store_rewards_title_default">商铺奖品（0）</string>
 </resources>

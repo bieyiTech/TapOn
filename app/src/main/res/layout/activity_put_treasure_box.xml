@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        tools:visibility="gone">
+        tools:background="@color/light_gray"
+        tools:visibility="visible">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/put_box_ar_fragment"
@@ -20,31 +21,27 @@
             android:layout_height="match_parent"
             />
 
-<!--        <fragment-->
-<!--            android:name="com.bieyitech.tapon.ui.ar.CloudAnchorArFragment"-->
-<!--            android:id="@+id/put_box_ar_fragment"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent" />-->
-
         <ImageView
             android:id="@+id/put_box_help_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
+            android:layout_marginTop="36dp"
             android:layout_gravity="end"
-            android:paddingTop="30dp"
+            android:layout_marginEnd="16dp"
             android:src="@drawable/ic_help_outline"
             android:contentDescription="@string/img_desc"
             android:background="?attr/selectableItemBackgroundBorderless"
+            tools:tint="@color/black"
             />
 
         <com.bieyitech.tapon.widgets.ShadeTextView
             android:id="@+id/put_box_upload_btn"
-            android:layout_width="96dp"
+            android:layout_width="wrap_content"
+            android:minWidth="96dp"
             android:layout_height="96dp"
             android:layout_gravity="bottom|center_horizontal"
             android:padding="4dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="72dp"
             android:drawableTop="@drawable/ic_cloud_upload"
             android:drawableTint="@color/black"
             android:drawablePadding="4dp"
@@ -68,6 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="30dp"
+        tools:visibility="gone"
         >
 
         <LinearLayout
@@ -165,5 +163,19 @@
 
     </FrameLayout>
 
+    <TextView
+        android:id="@+id/putBoxSnackbarTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:padding="16dp"
+        android:background="#A3000000"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:lineSpacingExtra="2dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        tools:text="这是模，这是模拟Snackbar的效果拟Snackbar的效果，这是模拟Snackbar的效果"
+        />
 
 </FrameLayout>

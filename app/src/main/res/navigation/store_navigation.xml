@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_person"
-        android:name="com.bieyitech.tapon.ui.notifications.PersonFragment"
+        android:name="com.bieyitech.tapon.ui.person.PersonFragment"
         android:label="PersonFragment"
         tools:layout="@layout/fragment_person"
         />

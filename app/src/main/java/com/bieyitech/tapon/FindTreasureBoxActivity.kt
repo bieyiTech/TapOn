@@ -12,7 +12,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.MotionEvent
+import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.GuardedBy
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.util.Preconditions
@@ -23,12 +25,16 @@ import com.bieyitech.tapon.bmob.RewardObject
 import com.bieyitech.tapon.bmob.Store
 import com.bieyitech.tapon.bmob.StoreObject
 import com.bieyitech.tapon.bmob.TaponUser
-import com.bieyitech.tapon.helpers.SnackbarHelper
+import com.bieyitech.tapon.databinding.ActivityFindTreasureBoxBinding
+import com.bieyitech.tapon.helpers.checkNotNull
 import com.bieyitech.tapon.helpers.printLog
 import com.bieyitech.tapon.helpers.showToast
+import com.bieyitech.tapon.helpers.toggleVisibility
 import com.bieyitech.tapon.ui.ar.CloudAnchorArFragment
 import com.bieyitech.tapon.ui.ar.CloudAnchorManager
 import com.bieyitech.tapon.ui.ar.FirebaseManager
+import com.bieyitech.tapon.widgets.ShadeTextView
+import com.bieyitech.tapon.widgets.WaitProgressDialog
 import com.google.ar.core.Anchor
 import com.google.ar.core.Session
 import com.google.ar.sceneform.AnchorNode
@@ -51,6 +57,9 @@ class FindTreasureBoxActivity : AppCompatActivity() {
                 putExtra(EXTRA_STORE_OBJECT, storeObject)
             }
     }
+
+    // UI组件，视图绑定
+    private lateinit var viewBinding: ActivityFindTreasureBoxBinding
 
     // 状态
     private enum class HostResolveMode { NONE, RESOLVING }
@@ -75,18 +84,20 @@ class FindTreasureBoxActivity : AppCompatActivity() {
     private val cloudManager = CloudAnchorManager()
     private var currentMode: HostResolveMode = HostResolveMode.NONE
 
-    // 底部通知条，商铺奖品代码
-    private val snackbarHelper = SnackbarHelper()
+    // 商铺奖品代码
     private var objectCode = StoreObject.INVALID_OBJECT_CODE
     private lateinit var storeObject: StoreObject
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if(!checkIsSupportedDeviceOrFinish(this)){
             return
         }
-        setContentView(R.layout.activity_find_treasure_box)
+        viewBinding = ActivityFindTreasureBoxBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
+
+        // UI
+        viewBinding.findBoxSaveBtn.enableOnPressScaleTouchListener { saveRewardObject() }
 
         // 获取商铺代码
         storeObject = intent.getSerializableExtra(EXTRA_STORE_OBJECT) as StoreObject
@@ -162,7 +173,7 @@ class FindTreasureBoxActivity : AppCompatActivity() {
      */
     private fun startFindBox(storeCode: Long) {
         currentMode = HostResolveMode.RESOLVING
-        snackbarHelper.showMessageWithDismiss(this, "正在寻找宝箱，点击‘取消’退出")
+        viewBinding.findBoxSnackbarTv.textVisible("正在寻找宝箱")
 
         // 注册房间号监听器
         firebaseManager?.registerNewListenerForRoom(storeCode, object : FirebaseManager.CloudAnchorIdListener {
@@ -172,7 +183,7 @@ class FindTreasureBoxActivity : AppCompatActivity() {
                     setNewAnchor(it)
                     createOpenTreasureBox()
                 }
-                Preconditions.checkNotNull(resolveListener, "解析监听器不能为空。")
+                checkNotNull(resolveListener, "解析监听器不能为空。")
                 cloudManager.resolveCloudAnchor(cloudAnchorId, resolveListener, SystemClock.uptimeMillis())
             }
         })
@@ -233,8 +244,8 @@ class FindTreasureBoxActivity : AppCompatActivity() {
                         })
                         modelAnimator.start() // 播放动画
                         showToast("打开宝箱！！！")
-                        // 保存奖品
-                        saveRewardObject()
+                        // 显示保存奖品按钮
+                        viewBinding.findBoxSaveBtn.toggleVisibility(this@FindTreasureBoxActivity) { true }
                     }else{
                         showToast("宝箱已打开。")
                     }
@@ -247,11 +258,15 @@ class FindTreasureBoxActivity : AppCompatActivity() {
      * 保存奖品信息
      */
     private fun saveRewardObject() {
+        val waitProgressDialog = WaitProgressDialog(this).apply { show() }
         RewardObject(
             BmobUser.getCurrentUser(TaponUser::class.java),
-            storeObject
+            storeObject.store,
+            storeObject.name,
+            storeObject.intro
         ).save(object : SaveListener<String>() {
             override fun done(p0: String?, p1: BmobException?) {
+                waitProgressDialog.dismiss()
                 if(p1 == null){
                     showToast(R.string.bmob_save_success_text)
                     finish()
@@ -272,17 +287,16 @@ class FindTreasureBoxActivity : AppCompatActivity() {
             val cloudState = anchor.cloudAnchorState
             if(cloudState.isError) {
                 printLog("房间${roomCode}的锚点不能被解析，错误状态是：$cloudState")
-                snackbarHelper.showMessageWithDismiss(this@FindTreasureBoxActivity, "解析错误：$cloudState")
+                viewBinding.findBoxSnackbarTv.textVisible("解析错误：$cloudState")
                 return
             }
-            snackbarHelper.showMessageWithDismiss(this@FindTreasureBoxActivity, "成功找到宝箱！")
+            viewBinding.findBoxSnackbarTv.textVisible("成功找到宝箱！点击宝箱打开查看奖励。")
             // 找到锚点位置
             onFind(anchor)
         }
 
         override fun onShowResolveMessage() {
-            snackbarHelper.setMaxLines(4)
-            snackbarHelper.showMessageWithDismiss(this@FindTreasureBoxActivity, "仍然在寻找中。请确保你对准了先前放置宝箱的位置或重进房间")
+            viewBinding.findBoxSnackbarTv.textVisible("仍然在寻找中。请确保你对准了先前放置宝箱的位置或重进房间")
         }
     }
 
@@ -302,38 +316,9 @@ class FindTreasureBoxActivity : AppCompatActivity() {
         }
         return true
     }
-}
 
-/*
-private fun resetMode() {
-        currentMode = HostResolveMode.NONE
-        firebaseManager?.clearRoomListener()
-        isBoxOpened = false
-
-        if(treasureBox != null){
-            anchorNode?.removeChild(treasureBox)
-            treasureBox = null
-        }
-        if(treasurBoxCanOpen != null){
-            anchorNode?.removeChild(treasurBoxCanOpen)
-            treasurBoxCanOpen = null
-            // 重新加载宝箱
-            ModelRenderable.builder()
-                .setSource(this, Uri.parse("treasurebox_open2.sfb"))
-                .build()
-                .thenAccept { boxOpenRenderable = it }
-                .exceptionally {
-                    showToast("无法加载3D模型文件")
-                    null
-                }
-        }
-        if(anchorNode != null){
-            cloudAnchorArFragment?.arSceneView?.scene?.removeChild(anchorNode)
-            anchorNode = null
-        }
-        setNewAnchor(null)
-
-        snackbarHelper.hide(this)
-        cloudManager.clearListeners()
+    private fun TextView.textVisible(text: String) {
+        toggleVisibility(this@FindTreasureBoxActivity) { true }
+        this.text = text
     }
- */
+}

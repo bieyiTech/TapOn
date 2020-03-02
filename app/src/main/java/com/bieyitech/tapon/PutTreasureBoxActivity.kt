@@ -5,6 +5,7 @@ import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.widget.EditText
 import android.widget.FrameLayout
@@ -18,15 +19,14 @@ import cn.bmob.v3.listener.SaveListener
 import com.bieyitech.tapon.bmob.Store
 import com.bieyitech.tapon.bmob.StoreObject
 import com.bieyitech.tapon.bmob.TaponUser
-import com.bieyitech.tapon.helpers.SnackbarHelper
-import com.bieyitech.tapon.helpers.printLog
-import com.bieyitech.tapon.helpers.showToast
-import com.bieyitech.tapon.helpers.toggleVisibility
+import com.bieyitech.tapon.databinding.ActivityPutTreasureBoxBinding
+import com.bieyitech.tapon.helpers.*
 import com.bieyitech.tapon.ui.ar.CloudAnchorArFragment
 import com.bieyitech.tapon.ui.ar.CloudAnchorManager
 import com.bieyitech.tapon.ui.ar.FirebaseManager
 import com.bieyitech.tapon.widgets.ShadeTextView
 import com.bieyitech.tapon.widgets.WaitProgressDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.ar.core.Anchor
 import com.google.ar.core.Session
 import com.google.ar.sceneform.AnchorNode
@@ -50,16 +50,8 @@ class PutTreasureBoxActivity : AppCompatActivity() {
     // 状态
     private enum class HostResolveMode { NONE, HOSTING }
 
-    // UI控件——编辑奖品信息界面
-    private lateinit var storeObjectInfoContainer: FrameLayout
-    private lateinit var storeNameTv: TextView
-    private lateinit var storeObjectNameEt: EditText
-    private lateinit var storeObjectIntroEt: EditText
-    private lateinit var enterPutModeBtn: ShadeTextView
-    // UI控件——放置奖品界面
-    private lateinit var putBoxArFragmentContainer: FrameLayout
-    private lateinit var uploadBtn: ShadeTextView
-    private val snackbarHelper = SnackbarHelper()
+    // UI控件——编辑奖品信息界面，放置奖品界面
+    private lateinit var viewBinding: ActivityPutTreasureBoxBinding
 
     // AR相关的Fragment，会话
     private var cloudAnchorArFragment: CloudAnchorArFragment? = null
@@ -89,7 +81,8 @@ class PutTreasureBoxActivity : AppCompatActivity() {
         if (!checkIsSupportedDeviceOrFinish(this)) {
             return
         }
-        setContentView(R.layout.activity_put_treasure_box)
+        viewBinding = ActivityPutTreasureBoxBinding.inflate(LayoutInflater.from(this))
+        setContentView(viewBinding.root)
 
         // 获取店铺
         store = intent.getSerializableExtra(EXTRA_STORE) as Store
@@ -102,35 +95,33 @@ class PutTreasureBoxActivity : AppCompatActivity() {
     }
 
     /**
-     * 初始化UI控件
+     * 初始化UI控件和事件
      */
     private fun setupViews() {
-        storeObjectInfoContainer = findViewById(R.id.put_box_info_container)
-        storeNameTv = findViewById(R.id.put_box_store_name_tv)
-        storeObjectNameEt = findViewById(R.id.put_box_object_name_et)
-        storeObjectIntroEt = findViewById(R.id.put_box_object_intro_et)
-        enterPutModeBtn = findViewById(R.id.put_box_enter_put_btn)
-        enterPutModeBtn.enableOnPressScaleTouchListener {
+        viewBinding.putBoxEnterPutBtn.enableOnPressScaleTouchListener {
             if(saveStoreObjectInfo()){
                 enterPutMode()
             }
         }
-
-        putBoxArFragmentContainer = findViewById(R.id.put_box_ar_fragment_container)
-        uploadBtn = findViewById(R.id.put_box_upload_btn)
-        uploadBtn.enableOnPressScaleTouchListener {
+        viewBinding.putBoxUploadBtn.enableOnPressScaleTouchListener {
             onUploadButtonPress()
         }
-
-        storeNameTv.text = resources.getString(R.string.put_box_store_name_text, store.name)
+        viewBinding.putBoxHelpBtn.setOnClickListener {
+            // 显示帮助信息
+            MaterialAlertDialogBuilder(this)
+                .setTitle("提示")
+                .setMessage(R.string.put_box_help_text)
+                .show()
+        }
+        viewBinding.putBoxStoreNameTv.text = resources.getString(R.string.put_box_store_name_text, store.name)
     }
 
     /**
      * 保存StoreObject信息
      */
     private fun saveStoreObjectInfo(): Boolean {
-        val name = storeObjectNameEt.text.toString()
-        val intro = storeObjectIntroEt.text.toString()
+        val name = viewBinding.putBoxObjectNameEt.text.toString()
+        val intro = viewBinding.putBoxObjectIntroEt.text.toString()
         if(name.isEmpty() || intro.isEmpty()){
             showToast("名称和内容不能为空")
             return false
@@ -146,8 +137,8 @@ class PutTreasureBoxActivity : AppCompatActivity() {
      * 填写并保存信息后进入放置奖品的AR模式
      */
     private fun enterPutMode() {
-        storeObjectInfoContainer.toggleVisibility(this) { false }
-        putBoxArFragmentContainer.toggleVisibility(this) { true }
+        viewBinding.putBoxInfoContainer.toggleVisibility(this) { false }
+        viewBinding.putBoxArFragmentContainer.toggleVisibility(this) { true }
 
         load3DObject()
         setupArFragment()
@@ -179,13 +170,13 @@ class PutTreasureBoxActivity : AppCompatActivity() {
                 if (boxRenderable == null || currentMode != HostResolveMode.HOSTING) {
                     printLog("模型为空或不在托管模式")
                     if (currentMode == HostResolveMode.NONE) {
-                        snackbarHelper.showMessageWithDismiss(this@PutTreasureBoxActivity, "配置完成后，才能放置奖品")
+                        setFakeSnackBarText("配置完成后，才能放置奖品")
                     }
                     return@setOnTapArPlaneListener
                 }
                 synchronized(anchorLock) {
                     if (anchor == null) {
-                        Preconditions.checkState(
+                        checkState(
                             currentMode == HostResolveMode.HOSTING,
                             "需要在托管模式下才能放置奖品"
                         )
@@ -195,7 +186,7 @@ class PutTreasureBoxActivity : AppCompatActivity() {
                         setNewAnchor(anchor)
                         create3DObjectNode()
                         // 显示托管到云端的按钮
-                        uploadBtn.toggleVisibility(this@PutTreasureBoxActivity){ true }
+                        viewBinding.putBoxUploadBtn.toggleVisibility(this@PutTreasureBoxActivity){ true }
                     }
                 }
             }
@@ -222,7 +213,7 @@ class PutTreasureBoxActivity : AppCompatActivity() {
      */
     private fun setupConfiguration() {
         // printLog("配置Firebase数据库")
-        snackbarHelper.showMessageWithDismiss(this, "正在进行相关配置。如果长时间没有响应，请确认是否有科学上网。")
+        setFakeSnackBarText("正在进行相关配置。如果长时间没有响应，请确认是否有科学上网。")
         hostListener = RoomCodeAndCloudAnchorIdListener() // 分配房间号的监听器
         firebaseManager?.getNewRoomCode(hostListener)
     }
@@ -236,13 +227,13 @@ class PutTreasureBoxActivity : AppCompatActivity() {
             return
         }
 
-        uploadBtn.text = "上传中......"
-        uploadBtn.isEnabled = false
+        viewBinding.putBoxUploadBtn.text = "上传中......"
+        viewBinding.putBoxUploadBtn.isEnabled = false
         treasureBoxNode?.translationController?.isEnabled = false // 不能移动奖品
         // 将锚点托管到云端0
-        Preconditions.checkNotNull(hostListener, "托管监听器不能为空")
+        checkNotNull(hostListener, "托管监听器不能为空")
         cloudManager.hostCloudAnchor(anchor!!, hostListener) // 核心函数
-        snackbarHelper.showMassage(this, "正在上传奖品位置")
+        setFakeSnackBarText("正在上传奖品位置")
     }
 
     /**
@@ -297,30 +288,30 @@ class PutTreasureBoxActivity : AppCompatActivity() {
             val cloudState = anchor.cloudAnchorState
             if (cloudState.isError) {
                 printLog("托管锚点时发生错误：$cloudState")
-                snackbarHelper.showMessageWithDismiss(this@PutTreasureBoxActivity, "托管错误：$cloudState")
+                setFakeSnackBarText("托管错误：$cloudState")
                 return
             }
-            Preconditions.checkState(cloudAnchorId.isEmpty(), "不能预先设置云锚点ID")
+            checkState(cloudAnchorId.isEmpty(), "不能预先设置云锚点ID")
             cloudAnchorId = anchor.cloudAnchorId
             checkAndMaybeShare()
         }
 
         // 获得房间号后调用
         override fun onNewRoomCode(newRoomCode: Long) {
-            Preconditions.checkState(roomCode == null, "不能预先设置房间号")
+            checkState(roomCode == null, "不能预先设置房间号")
             roomCode = newRoomCode
 
             // 设置objectCode
             storeObject.objectCode = newRoomCode.toInt()
 
-            snackbarHelper.showMessageWithDismiss(this@PutTreasureBoxActivity, "准备完毕，可以放置一个奖品")
+            setFakeSnackBarText("准备完毕，可以放置一个奖品")
             checkAndMaybeShare()
             // 当接收到可用房间号后，切换到HOSTING状态。
             currentMode = HostResolveMode.HOSTING
         }
 
         override fun onError(error: DatabaseError?) {
-            snackbarHelper.showError(this@PutTreasureBoxActivity, "Firebase出现错误：$error")
+            setFakeSnackBarText("Firebase出现错误：$error")
         }
 
         // 托管云锚点函数
@@ -329,12 +320,12 @@ class PutTreasureBoxActivity : AppCompatActivity() {
                 return
             }
             firebaseManager?.storeAnchorIdRoom(roomCode!!, cloudAnchorId)
-            uploadBtn.apply {
+            viewBinding.putBoxUploadBtn.apply {
                 setText(R.string.put_box_upload_hint)
                 isEnabled = true
                 toggleVisibility(this@PutTreasureBoxActivity){ false }
             }
-            snackbarHelper.showMessageWithDismiss(this@PutTreasureBoxActivity, "上传成功")
+            setFakeSnackBarText("上传成功")
             saveStoreObject()
         }
     }
@@ -374,5 +365,10 @@ class PutTreasureBoxActivity : AppCompatActivity() {
             return false
         }
         return true
+    }
+
+    private fun setFakeSnackBarText(text: String) {
+        viewBinding.putBoxSnackbarTv.toggleVisibility(this){ true }
+        viewBinding.putBoxSnackbarTv.text = text
     }
 }

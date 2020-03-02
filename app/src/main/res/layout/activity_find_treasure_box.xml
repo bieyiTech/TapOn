@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,5 +12,43 @@
         android:id="@+id/find_box_ar_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <com.bieyitech.tapon.widgets.ShadeTextView
+        android:id="@+id/findBoxSaveBtn"
+        android:layout_width="wrap_content"
+        android:minWidth="96dp"
+        android:layout_height="96dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:padding="4dp"
+        android:layout_marginBottom="72dp"
+        android:drawableTop="@drawable/ic_cloud_upload"
+        android:drawableTint="@color/black"
+        android:drawablePadding="4dp"
+        android:text="@string/find_box_save_hint"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:fullRoundCorner="true"
+        app:stv_solidColor="@color/white"
+        app:stv_shadeColor="@color/gray"
+        app:stv_shadeLength="12dp"
+        app:stv_yOffset="2dp"
+        />
+
+    <TextView
+        android:id="@+id/findBoxSnackbarTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:padding="16dp"
+        android:background="#A3000000"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:lineSpacingExtra="2dp"
+        android:visibility="gone"
+        tools:text="这是模，这是模拟Snackbar的效果拟Snackbar的效果，这是模拟Snackbar的效果"
+        />
 
 </FrameLayout>

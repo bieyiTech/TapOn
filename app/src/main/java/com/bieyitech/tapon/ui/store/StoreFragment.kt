@@ -1,10 +1,13 @@
 package com.bieyitech.tapon.ui.store
 
+import android.graphics.Outline
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
@@ -21,6 +24,9 @@ import com.bieyitech.tapon.R
 import com.bieyitech.tapon.bmob.Store
 import com.bieyitech.tapon.bmob.StoreObject
 import com.bieyitech.tapon.data.CommonAdapter
+import com.bieyitech.tapon.data.CommonAdapterWithDataBinding
+import com.bieyitech.tapon.databinding.FragmentStoreBinding
+import com.bieyitech.tapon.databinding.ItemStoreObjectBinding
 import com.bieyitech.tapon.helpers.printLog
 import com.bieyitech.tapon.helpers.showToast
 import com.bieyitech.tapon.widgets.ShadeTextView
@@ -44,9 +50,8 @@ class StoreFragment : Fragment() {
     }
 
     // UI控件
-    private lateinit var storeRewardsTitle: ShadeTextView
-    private lateinit var storeNameTv: TextView
-    private lateinit var storeObjectsRv: RecyclerView
+    private var _binding: FragmentStoreBinding? = null
+    private val viewBinding get() = _binding!!
     private lateinit var waitProgressDialog: WaitProgressDialog
 
     private var storeId: String = ""
@@ -64,13 +69,16 @@ class StoreFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_store, container, false)
+    ): View? {
+        _binding = FragmentStoreBinding.inflate(inflater, container, false)
+        return viewBinding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        storeRewardsTitle = view.findViewById(R.id.store_rewards_title)
-        storeNameTv = view.findViewById(R.id.store_shop_name)
-        storeObjectsRv = view.findViewById(R.id.store_store_rewards_rv)
-
+        // 退出该商铺
+        viewBinding.storeExitBtn.setOnClickListener {
+            exitStoreFragment()
+        }
         // 查询商铺信息
         waitProgressDialog.show()
         BmobQuery<Store>().getObject(storeId, object : QueryListener<Store>() {
@@ -88,11 +96,16 @@ class StoreFragment : Fragment() {
         })
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     /**
      * 填充商铺内容
      */
     private fun fillStoreContent() {
-        storeNameTv.text = HtmlCompat.fromHtml(resources.getString(R.string.store_shop_name_title, mStore.name),
+        viewBinding.storeShopName.text = HtmlCompat.fromHtml(resources.getString(R.string.store_shop_name_title, mStore.name),
             HtmlCompat.FROM_HTML_MODE_COMPACT)
 
         // 查询商铺奖品并填充
@@ -126,16 +139,20 @@ class StoreFragment : Fragment() {
      */
     private fun fillStoreObjectsContent(objectList: MutableList<StoreObject>) {
         // 数量
-        storeRewardsTitle.text = resources.getString(R.string.store_store_rewards_title, objectList.size)
+        viewBinding.storeRewardsTitle.text = resources.getString(R.string.store_store_rewards_title, objectList.size)
         // 列表
-        storeObjectsRv.adapter = object : CommonAdapter<StoreObject>(requireContext(), objectList, R.layout.item_store_object) {
-            override fun bindData(holder: CommonViewHolder, data: StoreObject, position: Int) {
-                with(holder) {
-                    setText(R.id.store_object_name_tv, data.name)
-                    setText(R.id.store_object_intro_tv, data.intro)
-                }
-                with(holder.itemView) {
-                    findViewById<ShadeTextView>(R.id.store_object_find_btn).enableOnPressScaleTouchListener {
+        viewBinding.storeStoreRewardsRv.adapter = object : CommonAdapterWithDataBinding<StoreObject>(
+            requireContext(), objectList, R.layout.item_store_object
+        ){
+            override fun bindData(
+                holder: CommonViewHolderWithDataBinding,
+                data: StoreObject,
+                position: Int
+            ) {
+                with(holder.viewBinding as ItemStoreObjectBinding){
+                    storeObject = data
+                    storeObjectOutline.visibility = View.VISIBLE
+                    storeObjectFindBtn.enableOnPressScaleTouchListener {
                         startActivity(FindTreasureBoxActivity.newIntent(requireContext(), data))
                     }
                 }

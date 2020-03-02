@@ -5,7 +5,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@color/gray">
+    tools:background="@color/light_gray">
+
+    <ImageView
+        android:id="@+id/store_exit_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="12dp"
+        android:src="@drawable/ic_arrow_back"
+        android:tint="@color/black"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/img_desc"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,13 +33,13 @@
             android:id="@+id/store_shop_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="36dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="36dp"
             android:textAlignment="center"
             android:textSize="20sp"
             android:textColor="@color/black"
-            tools:text="欢迎来到商铺"
+            tools:text="欢迎来到商铺：这是一个很长的商铺名称"
             />
 
         <com.bieyitech.tapon.widgets.ShadeTextView
@@ -34,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginStart="8dp"
-            android:text="@string/store_store_rewards_title"
+            android:text="@string/store_store_rewards_title_default"
             app:stv_solidColor="@color/white"
             app:stv_shadeColor="@color/light_gray"
             />

@@ -4,11 +4,14 @@ import cn.bmob.v3.BmobObject
 
 /**
  * 顾客持有的奖励（如优惠券）
+ * 因为商家可能删除先前的奖品，所以这里要重新拷贝一份奖品信息
  */
 data class RewardObject(var user: TaponUser,            // 所属用户
-                        var storeObject: StoreObject    // 对应的商铺物品
+                        var store: Store,               // 来源商铺
+                        var name: String,               // 奖品名称
+                        var intro: String               // 奖品简介
 ) : BmobObject() {
 
-    constructor(): this(TaponUser(), StoreObject())
+    constructor(): this(TaponUser(), Store(), "", "")
 
 }

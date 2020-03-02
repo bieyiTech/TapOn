@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import cn.bmob.v3.Bmob
 import cn.bmob.v3.BmobUser
 import com.bieyitech.tapon.bmob.APPLICATION_ID
-import com.bieyitech.tapon.helpers.printLog
 import com.bieyitech.tapon.helpers.showToast
 import com.bieyitech.tapon.ui.QRCodeFragment
 import com.bieyitech.tapon.ui.person.PersonFragment
