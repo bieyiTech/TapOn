@@ -49,6 +49,7 @@
     <string name="person_modify_store_hint">Decorate the shop</string>
     <string name="person_put_box_hint">Put a reward</string>
     <string name="person_my_store_hint">My store</string>
+    <string name="person_store_save_qrcode_hint">（Long Click to save QRCode）</string>
 
     <!-- Bmob相关 -->
     <string name="bmob_delete_success_text" translatable="false">删除成功</string>

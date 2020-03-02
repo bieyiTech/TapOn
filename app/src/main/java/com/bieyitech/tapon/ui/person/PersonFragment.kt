@@ -39,6 +39,7 @@ class PersonFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // 初始化ViewPager，并与TabLayout关联
         viewBinding.personViewPager.adapter = PersonViewPagerAdapter()
         viewBinding.personTabLayout.setupWithViewPager(viewBinding.personViewPager)
 
@@ -78,10 +79,11 @@ class PersonFragment : Fragment() {
         }
     }
 
+    // ViewPager视图适配器
     private inner class PersonViewPagerAdapter : PagerAdapter() {
 
-        private val titles = arrayOf("我的奖品", "商铺", "商铺奖品")
-        private val cacheViews = SparseArray<View>(titles.size) // 视图缓存
+        private val titles = arrayOf("我的奖品", "商铺", "商铺奖品")  // 标题
+        private val cacheViews = SparseArray<View>(titles.size)     // 视图缓存
 
         override fun getCount(): Int = titles.size
 
@@ -114,6 +116,7 @@ class PersonFragment : Fragment() {
 
         override fun isViewFromObject(view: View, `object`: Any): Boolean = (view == `object` as View)
 
+        // 与TabLayout关联
         override fun getPageTitle(position: Int): CharSequence? = titles[position]
     }
 }

@@ -9,11 +9,18 @@ import cn.bmob.v3.BmobQuery
 import cn.bmob.v3.exception.BmobException
 import cn.bmob.v3.listener.FindListener
 import com.bieyitech.tapon.PutTreasureBoxActivity
+import com.bieyitech.tapon.R
 import com.bieyitech.tapon.bmob.StoreObject
+import com.bieyitech.tapon.data.CommonAdapterWithDataBinding
+import com.bieyitech.tapon.databinding.ItemStoreObjectBinding
 import com.bieyitech.tapon.databinding.PersonTabStoreObjectBinding
 import com.bieyitech.tapon.helpers.printLog
 import com.bieyitech.tapon.helpers.showToast
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
+/**
+ * “我的”页面中的“商铺奖品”标签页内容
+ */
 class PersonStoreObjectPage(private val personFragment: PersonFragment,
                             private val context: Context): BasePersonTabPage() {
 
@@ -41,7 +48,7 @@ class PersonStoreObjectPage(private val personFragment: PersonFragment,
             override fun done(p0: MutableList<StoreObject>?, p1: BmobException?) {
                 mViewBinding.personStoreObjectSrl.isRefreshing = false
                 if(p1 == null && p0 != null){
-                    mViewBinding.personStoreObjectsRv.adapter = PersonStoreObjectAdapter(context, p0)
+                    fillStoreObjectsContent(p0)
                 }else{
                     context.apply {
                         showToast("未找到奖品")
@@ -51,4 +58,48 @@ class PersonStoreObjectPage(private val personFragment: PersonFragment,
             }
         })
     }
+
+    /**
+     * 填充奖品列表
+     */
+    private fun fillStoreObjectsContent(objectList: MutableList<StoreObject>) {
+        mViewBinding.personStoreObjectsRv.adapter = object : CommonAdapterWithDataBinding<StoreObject>(
+            context, objectList, R.layout.item_store_object
+        ){
+            override fun bindData(
+                holder: CommonViewHolderWithDataBinding,
+                data: StoreObject,
+                position: Int
+            ) {
+                with(holder.viewBinding as ItemStoreObjectBinding) {
+                    storeObject = data
+                    storeObjectFindBtn.visibility = View.GONE
+
+                    root.setOnClickListener {
+                        ItemStoreObjectBinding.inflate(LayoutInflater.from(context)).apply {
+                            storeObject = data
+                            storeObjectIntroTv.isSingleLine = false
+                            storeObjectFindBtn.visibility = View.GONE
+                        }.let {
+                            MaterialAlertDialogBuilder(context)
+                                .setView(it.root)
+                                .show()
+                        }
+                    }
+                    root.setOnLongClickListener {
+                        // 长按删除
+                        MaterialAlertDialogBuilder(context, R.style.CustomDialog)
+                            .setTitle("确认删除奖品[${data.name}]吗？")
+                            .setNegativeButton(android.R.string.cancel, null)
+                            .setPositiveButton(android.R.string.ok){ _, _ ->
+                                data.deleteStoreObject(context){
+                                    removeItem(data)
+                                }
+                            }.show()
+                        true
+                    }
+                }
+            }
+        }
+    } 
 }
