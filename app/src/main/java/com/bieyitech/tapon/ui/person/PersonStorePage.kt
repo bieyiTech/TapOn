@@ -56,6 +56,10 @@ class PersonStorePage(private val personFragment: PersonFragment,
 
     override fun getView(): View = mViewBinding.root
 
+    override fun refreshPage() {
+        fetchStoreInfo()
+    }
+
     /**
      * 获取商铺信息
      */
@@ -89,6 +93,7 @@ class PersonStorePage(private val personFragment: PersonFragment,
         mViewBinding.taponUser = taponUser
         if(taponUser.isMerchant()) {
             if (::mStore.isInitialized) {
+                mViewBinding.personStoreInfoContainer.visibility = View.VISIBLE
                 mStore.apply {
                     mViewBinding.personStoreNameTv.text = this.name
                     // 生成店铺二维码，如果已经保存了，则使用缓存文件

@@ -35,6 +35,10 @@ class PersonRewardObjectPage(private val personFragment: PersonFragment,
 
     override fun getView(): View = mViewBinding.root
 
+    override fun refreshPage() {
+        fetchRewardObjects()
+    }
+
     /**
      * 查询奖品信息并填充
      */

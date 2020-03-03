@@ -3,11 +3,15 @@
  */
 package com.bieyitech.tapon.ui.person
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.Network
 import android.os.Bundle
 import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.util.forEach
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.PagerAdapter
 import cn.bmob.v3.BmobUser
@@ -28,6 +32,10 @@ class PersonFragment : Fragment() {
     private var _binding: FragmentPersonBinding? = null
     private val viewBinding get() = _binding!!
 
+    // 网络连接管理器
+    private lateinit var connectivityManager: ConnectivityManager
+    private lateinit var networkCallback: ConnectivityManager.NetworkCallback
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,15 +48,28 @@ class PersonFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // 初始化ViewPager，并与TabLayout关联
-        viewBinding.personViewPager.adapter = PersonViewPagerAdapter()
+        val personViewPagerAdapter = PersonViewPagerAdapter()
+        viewBinding.personViewPager.adapter = personViewPagerAdapter
         viewBinding.personTabLayout.setupWithViewPager(viewBinding.personViewPager)
 
         setupButtonClickListeners()
         fillUserInfo()
+
+        connectivityManager = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        networkCallback = object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                context?.printLog("连接上网络，刷新页面")
+                activity?.runOnUiThread {
+                    personViewPagerAdapter.refreshAllPages()    // 在主线程刷新所有页面
+                }
+            }
+        }
+        connectivityManager.registerDefaultNetworkCallback(networkCallback)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        connectivityManager.unregisterNetworkCallback(networkCallback) // 注销
         _binding = null // 解绑
     }
 
@@ -83,31 +104,40 @@ class PersonFragment : Fragment() {
     private inner class PersonViewPagerAdapter : PagerAdapter() {
 
         private val titles = arrayOf("我的奖品", "商铺", "商铺奖品")  // 标题
-        private val cacheViews = SparseArray<View>(titles.size)     // 视图缓存
+        private val cachePages = SparseArray<BasePersonTabPage>(titles.size) // 页面缓存
+
+        // 刷新所有页面
+        fun refreshAllPages() {
+            cachePages.forEach { _, page ->
+                page.refreshPage()
+            }
+        }
 
         override fun getCount(): Int = titles.size
 
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
-            val cacheView = cacheViews[position]
+            val cacheView = cachePages[position]?.getView()
             if(cacheView != null){
                 container.addView(cacheView)
                 return cacheView
             }
-            val view =  when(position) {
+            val basePage =  when(position) {
                 0 -> {
-                    PersonRewardObjectPage(this@PersonFragment, requireContext()).getView()
+                    PersonRewardObjectPage(this@PersonFragment, requireContext())
                 }
                 1 -> {
-                    PersonStorePage(this@PersonFragment, requireContext()).getView()
+                    PersonStorePage(this@PersonFragment, requireContext())
                 }
                 2 -> {
-                    PersonStoreObjectPage(this@PersonFragment, requireContext()).getView()
+                    PersonStoreObjectPage(this@PersonFragment, requireContext())
                 }
-                else -> View(context)
+                else -> object : BasePersonTabPage(){
+                    override fun getView(): View = View(context)
+                }
             }
-            cacheViews.put(position, view)
-            container.addView(view)
-            return view
+            cachePages.put(position, basePage)
+            container.addView(basePage.getView())
+            return basePage.getView()
         }
 
         override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {

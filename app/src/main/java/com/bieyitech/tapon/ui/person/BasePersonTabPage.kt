@@ -19,4 +19,7 @@ abstract class BasePersonTabPage {
     // 抽象方法，获得根视图，用于ViewPager每项的初始化
     abstract fun getView(): View
 
+    // 刷新页面
+    open fun refreshPage(){}
+
 }

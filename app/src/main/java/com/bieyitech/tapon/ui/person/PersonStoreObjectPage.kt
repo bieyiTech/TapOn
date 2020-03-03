@@ -35,9 +35,12 @@ class PersonStoreObjectPage(private val personFragment: PersonFragment,
 
     override fun getView(): View = mViewBinding.root
 
+    override fun refreshPage() {
+        fetchStoreObjects()
+    }
+
     /**
      * 查询商铺拥有的奖品信息并填充
-     * @param rv: 被填充的RecyclerView
      */
     private fun fetchStoreObjects() {
         mViewBinding.personStoreObjectSrl.isRefreshing = true
