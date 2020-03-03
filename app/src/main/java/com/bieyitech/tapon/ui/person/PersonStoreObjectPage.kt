@@ -51,7 +51,7 @@ class PersonStoreObjectPage(private val personFragment: PersonFragment,
                     fillStoreObjectsContent(p0)
                 }else{
                     context.apply {
-                        showToast("未找到奖品")
+                        showToast(if(p1?.errorCode == 9016) "网络不可用" else "未找到奖品")
                         printLog("未找到奖品：$p1")
                     }
                 }

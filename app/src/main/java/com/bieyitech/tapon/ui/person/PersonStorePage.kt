@@ -60,12 +60,12 @@ class PersonStorePage(private val personFragment: PersonFragment,
      * 获取商铺信息
      */
     private fun fetchStoreInfo() {
-        val waitProgressDialog = WaitProgressDialog(context).apply { show() }
+        // val waitProgressDialog = WaitProgressDialog(context).apply { show() }
         val storeQuery = BmobQuery<Store>()
         storeQuery.addWhereEqualTo("user", taponUser)
         storeQuery.findObjects(object : FindListener<Store>() {
             override fun done(p0: MutableList<Store>?, p1: BmobException?) {
-                waitProgressDialog.dismiss()
+                // waitProgressDialog.dismiss()
                 if(p1 == null && p0 != null && p0.isNotEmpty()){
                     if(p0.size > 1){
                         context.showToast("该用户商铺数量大于1")
@@ -74,7 +74,7 @@ class PersonStorePage(private val personFragment: PersonFragment,
                     mStore = p0[0]
                     context.printLog("商铺名称：${mStore.name}")
                 }else{
-                    // context.showToast("获取商铺信息失败")
+                    context.showToast(if(p1?.errorCode == 9016) "网络不可用" else "获取商铺信息失败")
                     context.printLog("获取商铺信息失败：$p1")
                 }
                 fillStoreInfo()
@@ -114,7 +114,7 @@ class PersonStorePage(private val personFragment: PersonFragment,
                 }
             } else {
                 mViewBinding.personStoreInfoContainer.visibility = View.GONE
-                context.showToast("没有获取到商铺信息")
+                // context.showToast("没有获取到商铺信息")
             }
         }
     }
@@ -255,7 +255,7 @@ class PersonStorePage(private val personFragment: PersonFragment,
         "${mStore.name}_store_qrcode.png")
 
     // 获得保存商铺信息（二维码+商铺名称）图片的文件路径
-    // 存到emulated/0/Android/media/com.bieyitech.tapon中
+    // 存到/storage/emulated/0/Android/media/com.bieyitech.tapon/中
     private fun getSavedStoreQRCodeFile() = File(context.externalMediaDirs[0],
         "${mStore.name}_二维码信息.png")
 }

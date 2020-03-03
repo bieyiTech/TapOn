@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import cn.bmob.v3.Bmob
 import cn.bmob.v3.BmobUser
 import com.bieyitech.tapon.bmob.APPLICATION_ID
+import com.bieyitech.tapon.bmob.Store
 import com.bieyitech.tapon.helpers.showToast
 import com.bieyitech.tapon.ui.QRCodeFragment
 import com.bieyitech.tapon.ui.person.PersonFragment
@@ -86,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                     transaction.show(qrCodeFragment!!)
                 }else{
                     if(storeFragment == null){
-                        storeFragment = StoreFragment.newInstance("").also {
+                        storeFragment = StoreFragment.newInstance(Store()).also {
                             transaction.add(R.id.main_fragment_container, it)
                         }
                     }
@@ -149,11 +150,11 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * 由二维码扫描界面进入商铺界面
-     * @param storeId 商铺唯一标识代码（字符串）
+     * @param store 商铺实例
      */
-    fun enterStoreState(storeId: String) {
+    fun enterStoreState(store: Store) {
         isInStoreState = true
-        storeFragment = StoreFragment.newInstance(storeId).also {
+        storeFragment = StoreFragment.newInstance(store).also {
             supportFragmentManager.beginTransaction().replace(R.id.main_fragment_container, it).commit()
             qrCodeFragment = null
             personFragment = null

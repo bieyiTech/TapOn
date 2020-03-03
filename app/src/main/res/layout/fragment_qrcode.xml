@@ -6,13 +6,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <cn.bingoogolapple.qrcode.zxing.ZXingView
-        android:id="@+id/home_zxing_view"
+        android:id="@+id/qrcode_zxing_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:qrcv_topOffset="150dp"
-        app:qrcv_cornerSize="0dp"
-        app:qrcv_cornerLength="0dp"
-        app:qrcv_borderSize="0dp"
         app:qrcv_rectWidth="300dp"
         app:qrcv_qrCodeTipText="扫描二维码进入商铺"
         app:qrcv_tipTextMargin="32dp"
@@ -23,17 +20,41 @@
         app:qrcv_isAutoZoom="true"
         />
 
-    <Button
+    <com.bieyitech.tapon.widgets.ShadeTextView
         android:id="@+id/qrcode_scan_again_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
-        android:background="@drawable/btn_normal"
         android:layout_gravity="center"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
         android:text="@string/qrcode_scan_again"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:gravity="center"
         android:visibility="gone"
         tools:visibility="visible"
+        app:fullRoundCorner="true"
+        app:stv_solidColor="@color/white"
+        app:stv_shadeColor="@color/gray"
+        app:stv_shadeLength="8dp"
         />
+
+    <ImageView
+        android:id="@+id/qrcode_from_file_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="36dp"
+        android:layout_marginEnd="36dp"
+        android:padding="12dp"
+        android:src="@drawable/ic_photo"
+        android:background="@drawable/bg_round_corner"
+        android:backgroundTint="#7A333333"
+        android:scaleType="center"
+        android:contentDescription="@string/img_desc"
+        />
+
 
 </FrameLayout>
