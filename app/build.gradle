@@ -71,11 +71,11 @@ dependencies {
     implementation 'com.google.ar.sceneform.ux:sceneform-ux:1.15.0'
     implementation 'com.google.ar.sceneform:animation:1.15.0'
     // arcore
-    implementation 'com.google.ar:core:1.15.0'
+    implementation 'com.google.ar:core:1.16.0'
     // firebase
-    implementation 'com.google.firebase:firebase-core:17.2.2'
+    implementation 'com.google.firebase:firebase-core:17.3.0'
     implementation 'com.google.firebase:firebase-database:19.2.1'
-    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+    implementation 'com.google.firebase:firebase-analytics:17.3.0'
     // obj
     implementation 'de.javagl:obj:0.2.1'
 
@@ -87,13 +87,27 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
 
-
-sceneform.asset('sampledata/models/treasurebox_open2.fbx',
-        'default',
-        'sampledata/models/treasurebox_open2.sfa',
-        'src/main/res/raw/treasurebox_open2')
-
 sceneform.asset('sampledata/models/treasurebox.obj',
         'default',
         'sampledata/models/treasurebox.sfa',
         'src/main/res/raw/treasurebox')
+
+sceneform.asset('sampledata/models/treasurebox_anim.fbx',
+        'default',
+        'sampledata/models/treasurebox_anim.sfa',
+        'src/main/res/raw/treasurebox_anim')
+
+sceneform.asset('sampledata/rewards/fuwa_anim.fbx',
+        'default',
+        'sampledata/rewards/fuwa_anim.sfa',
+        'src/main/res/raw/fuwa_anim')
+
+sceneform.asset('sampledata/rewards/car_anim.fbx',
+        'default',
+        'sampledata/rewards/car_anim.sfa',
+        'src/main/res/raw/car_anim')
+
+sceneform.asset('sampledata/rewards/coupon_anim.fbx',
+        'default',
+        'sampledata/rewards/coupon_anim.sfa',
+        'src/main/res/raw/coupon_anim')

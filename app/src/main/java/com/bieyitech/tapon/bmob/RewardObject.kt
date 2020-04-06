@@ -8,10 +8,12 @@ import cn.bmob.v3.BmobObject
  */
 data class RewardObject(var user: TaponUser,            // 所属用户
                         var store: Store,               // 来源商铺
+                        var storeObjectId: String,      // 对应奖品objectId
                         var name: String,               // 奖品名称
-                        var intro: String               // 奖品简介
+                        var intro: String,              // 奖品简介
+                        var imgCode: Int                // 奖品图片
 ) : BmobObject() {
 
-    constructor(): this(TaponUser(), Store(), "", "")
+    constructor(): this(TaponUser(), Store(), "", "", "", -1)
 
 }

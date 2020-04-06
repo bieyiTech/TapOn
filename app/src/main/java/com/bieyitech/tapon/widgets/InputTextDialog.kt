@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.InputFilter
 import android.widget.EditText
 import android.widget.FrameLayout
+import com.bieyitech.tapon.R
 import com.bieyitech.tapon.helpers.hideSoftInputKeyboard
 import com.giz.android.toolkit.dp2pxSize
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -29,7 +30,7 @@ class InputTextDialog private constructor(context: Context,
             setPadding(dp2pxSize(context, 20f), dp2pxSize(context, 8f), dp2pxSize(context, 20f), 0)
             addView(et)
         }
-        dialog = MaterialAlertDialogBuilder(context)
+        dialog = MaterialAlertDialogBuilder(context, R.style.CustomDialog)
             .setTitle(title)
             .setView(wrapLayout)
             .setNegativeButton(android.R.string.cancel,  null)

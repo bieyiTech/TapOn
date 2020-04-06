@@ -1,0 +1,75 @@
+{
+  animations: [
+    {
+      clips: [
+        {
+          name: 'Take 001',
+          runtime_name: 'coupon_anim',
+        },
+      ],
+      path: 'sampledata/rewards/coupon_anim.fbx',
+    },
+  ],
+  materials: [
+    {
+      name: 'lambert2',
+      parameters: [
+        {
+          baseColor: [
+            1,
+            1,
+            1,
+            1,
+          ],
+        },
+        {
+          baseColorMap: 'coupon',
+        },
+        {
+          normalMap: null,
+        },
+        {
+          interpolatedColor: null,
+        },
+        {
+          metallic: 0,
+        },
+        {
+          metallicMap: null,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          roughnessMap: null,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/fbx_material.sfm',
+    },
+  ],
+  model: {
+    attributes: [
+      'Position',
+      'TexCoord',
+      'Orientation',
+      'BoneIndices',
+      'BoneWeights',
+    ],
+    collision: {},
+    file: 'sampledata/rewards/coupon_anim.fbx',
+    name: 'coupon_anim',
+    recenter: 'root',
+    scale: 1.536405,
+  },
+  samplers: [
+    {
+      file: 'sampledata/rewards\\coupon_anim.fbm\\coupon.jpg',
+      name: 'coupon',
+      pipeline_name: 'coupon_anim.fbm\\coupon.jpg',
+    },
+  ],
+  version: '0.54:2',
+}

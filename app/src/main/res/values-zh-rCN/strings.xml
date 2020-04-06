@@ -41,4 +41,5 @@
     <string name="find_box_save_hint">保存奖品</string>
     <string name="store_store_rewards_title_default">商铺奖品（0）</string>
     <string name="person_store_save_qrcode_hint">（长按二维码保存）</string>
+    <string name="put_box_choose_img_title">选择奖品图片</string>
 </resources>

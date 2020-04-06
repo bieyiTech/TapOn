@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.view.LayoutInflater
 import android.view.View
+import androidx.databinding.library.baseAdapters.BR
 import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder
 import cn.bmob.v3.BmobQuery
 import cn.bmob.v3.exception.BmobException
@@ -78,7 +79,9 @@ class PersonStorePage(private val personFragment: PersonFragment,
                     mStore = p0[0]
                     context.printLog("商铺名称：${mStore.name}")
                 }else{
-                    context.showToast(if(p1?.errorCode == 9016) "网络不可用" else "获取商铺信息失败")
+                    if(taponUser.isMerchant()){
+                        context.showToast(if(p1?.errorCode == 9016) "网络不可用" else "获取商铺信息失败")
+                    }
                     context.printLog("获取商铺信息失败：$p1")
                 }
                 fillStoreInfo()
@@ -121,6 +124,8 @@ class PersonStorePage(private val personFragment: PersonFragment,
                 mViewBinding.personStoreInfoContainer.visibility = View.GONE
                 // context.showToast("没有获取到商铺信息")
             }
+        }else{
+            mViewBinding.personStoreInfoContainer.visibility = View.GONE
         }
     }
 
@@ -143,7 +148,7 @@ class PersonStorePage(private val personFragment: PersonFragment,
                         override fun done(p0: BmobException?) {
                             waitProgressDialog.dismiss()
                             if(p0 == null){
-                                personFragment.fillUserInfo()
+                                personFragment.convertToMerchant()
                                 fetchStoreInfo()
                             }else{
                                 context.showToast("更新用户信息失败")

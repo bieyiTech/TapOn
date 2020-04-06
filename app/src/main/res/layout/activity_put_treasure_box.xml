@@ -65,7 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="30dp"
-        tools:visibility="gone"
+        tools:visibility="visible"
         >
 
         <LinearLayout
@@ -124,18 +124,43 @@
                 android:id="@+id/put_box_object_intro_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:background="@null"
                 android:hint="@string/put_box_reward_intro_hint"
-                android:minLines="6"
+                android:lines="6"
                 android:textSize="14sp"
                 android:paddingStart="32dp"
                 android:paddingEnd="0dp"
                 android:gravity="top"
-                android:layout_marginBottom="24dp"
                 android:lineSpacingExtra="2dp"
                 android:ellipsize="end"
-                android:maxLength="400"
+                android:maxLength="300"
                 tools:text="@string/tool_long_text"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:text="@string/put_box_choose_img_title"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:layout_gravity="start"
+                />
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/put_box_reward_img_vp"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="16dp"
+                android:paddingStart="64dp"
+                android:paddingEnd="64dp"
+                android:clipToPadding="false"
+                tools:background="#FF0"
                 />
 
         </LinearLayout>

@@ -1,0 +1,75 @@
+{
+  animations: [
+    {
+      clips: [
+        {
+          name: 'Take 001',
+          runtime_name: 'car_anim',
+        },
+      ],
+      path: 'sampledata/rewards/car_anim.fbx',
+    },
+  ],
+  materials: [
+    {
+      name: 'lambert1',
+      parameters: [
+        {
+          baseColor: [
+            1,
+            1,
+            1,
+            1,
+          ],
+        },
+        {
+          baseColorMap: 'car_tietu',
+        },
+        {
+          normalMap: null,
+        },
+        {
+          interpolatedColor: null,
+        },
+        {
+          metallic: 0,
+        },
+        {
+          metallicMap: null,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          roughnessMap: null,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/fbx_material.sfm',
+    },
+  ],
+  model: {
+    attributes: [
+      'Position',
+      'TexCoord',
+      'Orientation',
+      'BoneIndices',
+      'BoneWeights',
+    ],
+    collision: {},
+    file: 'sampledata/rewards/car_anim.fbx',
+    name: 'car_anim',
+    recenter: 'root',
+    scale: 1.1204270000000001,
+  },
+  samplers: [
+      {
+        file: 'sampledata/rewards\\car_anim.fbm\\car_tietu.png',
+        name: 'car_tietu',
+        pipeline_name: 'car_anim.fbm\\car_tietu.png',
+      },
+    ],
+  version: '0.54:2',
+}

@@ -7,12 +7,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.annotation.GuardedBy
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.util.Preconditions
+import androidx.viewpager.widget.PagerAdapter
 import cn.bmob.v3.BmobUser
 import cn.bmob.v3.exception.BmobException
 import cn.bmob.v3.listener.SaveListener
@@ -20,10 +23,13 @@ import com.bieyitech.tapon.bmob.Store
 import com.bieyitech.tapon.bmob.StoreObject
 import com.bieyitech.tapon.bmob.TaponUser
 import com.bieyitech.tapon.databinding.ActivityPutTreasureBoxBinding
+import com.bieyitech.tapon.databinding.ItemPutBoxImgBinding
 import com.bieyitech.tapon.helpers.*
+import com.bieyitech.tapon.model.RewardModelFactory
 import com.bieyitech.tapon.ui.ar.CloudAnchorArFragment
 import com.bieyitech.tapon.ui.ar.CloudAnchorManager
 import com.bieyitech.tapon.ui.ar.FirebaseManager
+import com.bieyitech.tapon.widgets.CoverFlowEffectTransformer
 import com.bieyitech.tapon.widgets.ShadeTextView
 import com.bieyitech.tapon.widgets.WaitProgressDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -31,6 +37,7 @@ import com.google.ar.core.Anchor
 import com.google.ar.core.Session
 import com.google.ar.sceneform.AnchorNode
 import com.google.ar.sceneform.FrameTime
+import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.ux.TransformableNode
 import com.google.firebase.database.DatabaseError
@@ -114,6 +121,25 @@ class PutTreasureBoxActivity : AppCompatActivity() {
                 .show()
         }
         viewBinding.putBoxStoreNameTv.text = resources.getString(R.string.put_box_store_name_text, store.name)
+
+        with(viewBinding.putBoxRewardImgVp) {
+            adapter = object : PagerAdapter() {
+                private val imgList = RewardModelFactory.getRewardImgList()
+
+                override fun isViewFromObject(view: View, `object`: Any): Boolean  = view == `object`
+
+                override fun getCount(): Int = imgList.size
+
+                override fun instantiateItem(container: ViewGroup, position: Int): Any {
+                    val view = ItemPutBoxImgBinding.inflate(layoutInflater)
+                    view.rewardImg.setImageResource(imgList[position])
+
+                    container.addView(view.root)
+                    return view.root
+                }
+            }
+            setPageTransformer(false, CoverFlowEffectTransformer(this@PutTreasureBoxActivity))
+        }
     }
 
     /**
@@ -129,6 +155,7 @@ class PutTreasureBoxActivity : AppCompatActivity() {
         storeObject.apply {
             this.name = name
             this.intro = intro
+            this.imgCode = viewBinding.putBoxRewardImgVp.currentItem
         }
         return true
     }
@@ -258,6 +285,7 @@ class PutTreasureBoxActivity : AppCompatActivity() {
         // 为锚点连接一个可变换的模型
         treasureBoxNode = TransformableNode(cloudAnchorArFragment?.transformationSystem).apply {
             setParent(anchorNode)
+            localScale = Vector3(6.0f, 6.0f, 6.0f)
             this.renderable = boxRenderable
             select()
             setOnTapListener { _, e ->

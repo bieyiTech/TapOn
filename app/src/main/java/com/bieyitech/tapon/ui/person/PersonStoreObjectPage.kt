@@ -16,6 +16,7 @@ import com.bieyitech.tapon.databinding.ItemStoreObjectBinding
 import com.bieyitech.tapon.databinding.PersonTabStoreObjectBinding
 import com.bieyitech.tapon.helpers.printLog
 import com.bieyitech.tapon.helpers.showToast
+import com.bieyitech.tapon.model.RewardModelFactory
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 /**
@@ -53,6 +54,7 @@ class PersonStoreObjectPage(private val personFragment: PersonFragment,
                 if(p1 == null && p0 != null){
                     fillStoreObjectsContent(p0)
                 }else{
+                    fillStoreObjectsContent(mutableListOf())
                     context.apply {
                         showToast(if(p1?.errorCode == 9016) "网络不可用" else "未找到奖品")
                         printLog("未找到奖品：$p1")
@@ -77,6 +79,7 @@ class PersonStoreObjectPage(private val personFragment: PersonFragment,
                 with(holder.viewBinding as ItemStoreObjectBinding) {
                     storeObject = data
                     storeObjectFindBtn.visibility = View.GONE
+                    storeObjectImg.setImageResource(RewardModelFactory.getRewardImg(data.imgCode))
 
                     root.setOnClickListener {
                         ItemStoreObjectBinding.inflate(LayoutInflater.from(context)).apply {

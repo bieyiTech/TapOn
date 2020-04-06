@@ -9,6 +9,7 @@ import android.app.Activity
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
+import android.media.SoundPool
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.MotionEvent
@@ -17,6 +18,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.GuardedBy
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.animation.doOnEnd
 import androidx.core.util.Preconditions
 import cn.bmob.v3.BmobUser
 import cn.bmob.v3.exception.BmobException
@@ -30,6 +32,10 @@ import com.bieyitech.tapon.helpers.checkNotNull
 import com.bieyitech.tapon.helpers.printLog
 import com.bieyitech.tapon.helpers.showToast
 import com.bieyitech.tapon.helpers.toggleVisibility
+import com.bieyitech.tapon.model.AbstractRewardModel
+import com.bieyitech.tapon.model.FuwaRewardModel
+import com.bieyitech.tapon.model.RewardModel
+import com.bieyitech.tapon.model.RewardModelFactory
 import com.bieyitech.tapon.ui.ar.CloudAnchorArFragment
 import com.bieyitech.tapon.ui.ar.CloudAnchorManager
 import com.bieyitech.tapon.ui.ar.FirebaseManager
@@ -74,10 +80,14 @@ class FindTreasureBoxActivity : AppCompatActivity() {
     private var anchor: Anchor? = null
     private var anchorNode: AnchorNode? = null
     private var treasurBoxCanOpenNode: Node? = null
-    // 可渲染物体（3D模型）
+    // 可渲染物体（3D模型）以及播放音效的组件
+    private val renderBoxSourceId = R.raw.treasurebox_anim
+    private val renderBoxAnimateDataName = "treasurebox_anim"
     private var boxOpenRenderable: ModelRenderable? = null
-    private var boxOpenTextRenderable: ViewRenderable? = null
+    private var rewardModel: RewardModel? = null // 奖品模型
     private var isBoxOpened = false
+    private val soundPool = SoundPool.Builder().build()
+    private var soundId = -1
 
     // 云锚点相关组件
     private var firebaseManager: FirebaseManager? = null
@@ -111,8 +121,14 @@ class FindTreasureBoxActivity : AppCompatActivity() {
         firebaseManager = FirebaseManager(this)
 
         load3DObject()
+        loadSound()
         setupArFragment()
         startFindBox(objectCode.toLong())
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        soundPool.release()
     }
 
     /**
@@ -121,7 +137,7 @@ class FindTreasureBoxActivity : AppCompatActivity() {
     private fun load3DObject() {
         // 加载含有打开动画的宝箱3D模型
         ModelRenderable.builder()
-            .setSource(this, R.raw.treasurebox_open2)
+            .setSource(this, renderBoxSourceId)
             .build()
             .thenAccept {
                 boxOpenRenderable = it
@@ -131,23 +147,19 @@ class FindTreasureBoxActivity : AppCompatActivity() {
                 null
             }
 
-        // 打开宝箱后显示的优惠券视图
-        ViewRenderable.builder()
-            .setView(this, R.layout.info_find_box)
-            .build()
-            .thenAccept {
-                boxOpenTextRenderable = it
-                boxOpenTextRenderable?.view?.
-                    findViewById<ImageView>(R.id.info_treasure_img)?.apply {
-                    setOnClickListener {
-                        this.animate().rotation(360f).start()
-                    }
-                }
+        rewardModel = RewardModelFactory.getRewardModel(storeObject.imgCode).apply {
+            loadRenderable(this@FindTreasureBoxActivity) {
+                showToast("无法加载3D模型文件")
             }
-            .exceptionally {
-                showToast("无法加载视图可渲染文件")
-                null
-            }
+        }
+    }
+
+    /**p
+     * 加载打开宝箱的音效
+     */
+    private fun loadSound() {
+        val fileDescriptor = this.assets.openFd("box_open_sound.mp3")
+        soundId = soundPool.load(fileDescriptor, 1)
     }
 
     /**
@@ -225,7 +237,7 @@ class FindTreasureBoxActivity : AppCompatActivity() {
             this.renderable = boxOpenRenderable
             localScale = Vector3(3.0f, 3.0f, 3.0f)
             // 动画部分
-            val openAnimData: AnimationData? = boxOpenRenderable?.getAnimationData("treasurebox_open2")
+            val openAnimData: AnimationData? = boxOpenRenderable?.getAnimationData(renderBoxAnimateDataName)
             val modelAnimator = ModelAnimator(openAnimData, boxOpenRenderable)
             setOnTapListener { _, e ->
                 // 点击宝箱，播放动画
@@ -233,24 +245,37 @@ class FindTreasureBoxActivity : AppCompatActivity() {
                     if(!isBoxOpened){
                         printLog("Open box: ${modelAnimator.duration}")
                         isBoxOpened = true
-                        modelAnimator.addListener(object : AnimatorListenerAdapter() {
-                            override fun onAnimationEnd(animation: Animator?) {
-                                Node().apply {
-                                    setParent(treasurBoxCanOpenNode)
-                                    localScale = Vector3(0.1f, 0.1f, 0.1f)
-                                    this.renderable = boxOpenTextRenderable
-                                }
-                            }
-                        })
+                        modelAnimator.duration = 1500 // 时间：1.5s
+                        modelAnimator.doOnEnd {
+                            playRewardModel()
+                        }
                         modelAnimator.start() // 播放动画
+                        if(soundId != -1) { // 播放音效
+                            soundPool.play(soundId, 1f, 1f, 1, 0, 1f)
+                        }
                         showToast("打开宝箱！！！")
                         // 显示保存奖品按钮
                         viewBinding.findBoxSaveBtn.toggleVisibility(this@FindTreasureBoxActivity) { true }
                     }else{
+                        if(rewardModel?.canAnimate == true) {
+                            rewardModel?.playAnimation()
+                        }
                         showToast("宝箱已打开。")
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * 展示宝箱里的奖品模型
+     */
+    private fun playRewardModel() {
+        Node().apply {
+            setParent(treasurBoxCanOpenNode)
+            this.renderable = rewardModel?.renderable
+            localScale = rewardModel?.localScale ?: Vector3()
+            localPosition = rewardModel?.localPosition ?: Vector3()
         }
     }
 
@@ -262,8 +287,10 @@ class FindTreasureBoxActivity : AppCompatActivity() {
         RewardObject(
             BmobUser.getCurrentUser(TaponUser::class.java),
             storeObject.store,
+            storeObject.objectId,
             storeObject.name,
-            storeObject.intro
+            storeObject.intro,
+            storeObject.imgCode
         ).save(object : SaveListener<String>() {
             override fun done(p0: String?, p1: BmobException?) {
                 waitProgressDialog.dismiss()
@@ -322,3 +349,25 @@ class FindTreasureBoxActivity : AppCompatActivity() {
         this.text = text
     }
 }
+
+/*
+加载ViewRenderable
+    private var boxOpenTextRenderable: ViewRenderable? = null
+// 打开宝箱后显示的优惠券视图
+        ViewRenderable.builder()
+            .setView(this, R.layout.info_find_box)
+            .build()
+            .thenAccept {
+                boxOpenTextRenderable = it
+                boxOpenTextRenderable?.view?.
+                    findViewById<ImageView>(R.id.info_treasure_img)?.apply {
+                    setOnClickListener {
+                        this.animate().rotation(360f).start()
+                    }
+                }
+            }
+            .exceptionally {
+                showToast("无法加载视图可渲染文件")
+                null
+            }
+ */

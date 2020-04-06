@@ -18,6 +18,7 @@ import com.bieyitech.tapon.databinding.FragmentStoreBinding
 import com.bieyitech.tapon.databinding.ItemStoreObjectBinding
 import com.bieyitech.tapon.helpers.printLog
 import com.bieyitech.tapon.helpers.showToast
+import com.bieyitech.tapon.model.RewardModelFactory
 import com.bieyitech.tapon.widgets.WaitProgressDialog
 
 /**
@@ -127,6 +128,8 @@ class StoreFragment : Fragment() {
             ) {
                 with(holder.viewBinding as ItemStoreObjectBinding){
                     storeObject = data
+                    storeObjectImg.setImageResource(RewardModelFactory.getRewardImg(data.imgCode))
+
                     storeObjectOutline.visibility = View.VISIBLE
                     storeObjectFindBtn.enableOnPressScaleTouchListener {
                         startActivity(FindTreasureBoxActivity.newIntent(requireContext(), data))

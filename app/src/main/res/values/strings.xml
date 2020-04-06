@@ -66,6 +66,7 @@
     <string name="put_box_reward_intro_hint">Enter reward\'s brief</string>
     <string name="put_box_info_title">Fill in reward\'s info</string>
     <string name="put_box_store_name_text">Store：%1$s</string>
+    <string name="put_box_choose_img_title">Choose a reward picture</string>
     <string name="put_box_help_text" translatable="false">
         检测到平面后会在平面上显示分布均匀的圆点。点击圆点所在的平面即可放置宝箱。
         放置宝箱后可以平移、旋转或缩放宝箱。

@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.util.forEach
+import androidx.databinding.adapters.ViewBindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.PagerAdapter
 import cn.bmob.v3.BmobUser
@@ -31,6 +32,7 @@ class PersonFragment : Fragment() {
     // UI组件，视图绑定
     private var _binding: FragmentPersonBinding? = null
     private val viewBinding get() = _binding!!
+    private lateinit var personViewPagerAdapter: PersonViewPagerAdapter
 
     // 网络连接管理器
     private lateinit var connectivityManager: ConnectivityManager
@@ -48,7 +50,7 @@ class PersonFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // 初始化ViewPager，并与TabLayout关联
-        val personViewPagerAdapter = PersonViewPagerAdapter()
+        personViewPagerAdapter = PersonViewPagerAdapter()
         viewBinding.personViewPager.adapter = personViewPagerAdapter
         viewBinding.personTabLayout.setupWithViewPager(viewBinding.personViewPager)
 
@@ -93,17 +95,29 @@ class PersonFragment : Fragment() {
     /**
      * 填充用户信息并获取奖品信息、商铺信息
      */
-    fun fillUserInfo() {
+    private fun fillUserInfo() {
         taponUser.apply {
             viewBinding.personNicknameTv.text = nickname
             viewBinding.personUserTypeTv.text = if(isCustomer()) "顾客" else "商家"
         }
     }
 
+    /**
+     * 顾客创建商铺后更新界面
+     */
+    fun convertToMerchant() {
+        taponUser.type = TaponUser.UserType.MERCHANT.ordinal
+        fillUserInfo()
+        personViewPagerAdapter = PersonViewPagerAdapter()
+        viewBinding.personViewPager.adapter = personViewPagerAdapter
+    }
+
     // ViewPager视图适配器
     private inner class PersonViewPagerAdapter : PagerAdapter() {
 
-        private val titles = arrayOf("我的奖品", "商铺", "商铺奖品")  // 标题
+        private val titles = if(taponUser.isMerchant()) arrayOf("我的奖品", "商铺", "商铺奖品")
+            else arrayOf("我的奖品", "商铺")
+        // 标题
         private val cachePages = SparseArray<BasePersonTabPage>(titles.size) // 页面缓存
 
         // 刷新所有页面
