@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/main_nav_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
+    android:layout_height="match_parent"
+    tools:background="@color/gray">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/main_fragment_container"
@@ -24,8 +15,34 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/main_nav_view"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
+
+    <com.bieyitech.tapon.widgets.ShadeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:sl_solidColor="@color/white"
+        app:sl_shadeLength="6dp"
+        app:sl_shadeColor="@color/gray"
+        app:sl_radius="64dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/main_nav_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_round_corner"
+            app:elevation="0dp"
+            app:itemRippleColor="@color/gray"
+            app:itemIconSize="20dp"
+            app:menu="@menu/bottom_nav_menu" />
+
+    </com.bieyitech.tapon.widgets.ShadeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

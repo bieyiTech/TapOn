@@ -3,11 +3,6 @@ package com.bieyitech.tapon.ui.person
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.adapters.ViewBindingAdapter
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import cn.bmob.v3.BmobQuery
 import cn.bmob.v3.exception.BmobException
 import cn.bmob.v3.listener.FindListener
@@ -92,6 +87,18 @@ class PersonRewardObjectPage(private val personFragment: PersonFragment,
                                 .setView(it.root)
                                 .show()
                         }
+                    }
+                    root.setOnLongClickListener {
+                        // 长按删除
+                        MaterialAlertDialogBuilder(context, R.style.CustomDialog)
+                            .setTitle("确认删除奖品[${data.name}]吗？")
+                            .setNegativeButton(android.R.string.cancel, null)
+                            .setPositiveButton(android.R.string.ok){ _, _ ->
+                                data.deleteRewardObject(context){
+                                    removeItem(data)
+                                }
+                            }.show()
+                        true
                     }
                 }
             }

@@ -4,19 +4,30 @@
         <shape>
             <solid android:color="@color/white" />
             <gradient
-                android:startColor="#DDD"
-                android:centerColor="#E6E6E6"
-                android:endColor="#F6F6F6"
+                android:startColor="#BBB"
+                android:centerColor="#BBB"
+                android:endColor="@color/white"
                 android:angle="-90"
                 />
-            <corners android:bottomLeftRadius="24dp" android:bottomRightRadius="24dp" />
+            <corners android:bottomLeftRadius="28dp" android:bottomRightRadius="28dp" />
         </shape>
     </item>
     <item android:bottom="16dp">
         <shape>
             <solid android:color="@color/white" />
-            <corners android:bottomLeftRadius="36dp" android:bottomRightRadius="36dp" />
+            <corners android:bottomLeftRadius="28dp" android:bottomRightRadius="28dp" />
+        </shape>
+    </item>
+    <item android:bottom="40dp"
+        android:drawable="@drawable/bg_profile_img"
+        android:gravity="fill_vertical">
+        <shape>
+            <corners android:bottomRightRadius="16dp" />
         </shape>
     </item>
 
 </layer-list>
+
+<!-- fragment_person.xml背景是#F6F6F6时的渐变色：
+    android:centerColor="#E6E6E6"
+    android:endColor="#F6F6F6"-->

@@ -3,13 +3,20 @@
  */
 package com.bieyitech.tapon.ui
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
@@ -46,8 +53,9 @@ class QRCodeFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
+        viewBinding.qrcodeZxingView.onDestroy()
         _binding = null
+        super.onDestroyView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,8 +64,7 @@ class QRCodeFragment : Fragment() {
             // 重新开始扫描
             viewBinding.qrcodeZxingView.apply {
                 startCamera()
-                showScanRect()
-                startSpot()
+                startSpotAndShowRect()
             }
         }
         viewBinding.qrcodeFromFileBtn.setOnClickListener {
@@ -73,13 +80,26 @@ class QRCodeFragment : Fragment() {
                         context.showToast("未找到二维码")
                     }else{
                         // 查询商铺信息
-                        viewBinding.qrcodeZxingView.stopCamera()
+                        viewBinding.qrcodeZxingView.stopSpot() // 停止扫描
+                        vibrate()
                         queryStore(result.trim())
                     }
                 }
                 override fun onCameraAmbientBrightnessChanged(isDark: Boolean) {}
                 override fun onScanQRCodeOpenCameraError() { context.printLog("打开相机错误") }
             })
+        }
+    }
+
+    /**
+     * 成功扫描二维码后振动提示
+     */
+    private fun vibrate() {
+        val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            vibrator.vibrate(VibrationEffect.createOneShot(200, 1))
+        }else{
+            vibrator.vibrate(200)
         }
     }
 
@@ -97,6 +117,8 @@ class QRCodeFragment : Fragment() {
                 }else{
                     context?.printLog("查询商铺错误：$p1")
                     context?.showToast(if(p1?.errorCode == 9016) "网络不可用" else "无效的二维码信息")
+
+                    viewBinding.qrcodeZxingView.stopCamera()
                     viewBinding.qrcodeScanAgainBtn.toggleVisibility(requireContext()){ true }
                 }
             }
@@ -136,35 +158,36 @@ class QRCodeFragment : Fragment() {
                     context?.printLog("图片路径：$path")
                     viewBinding.qrcodeZxingView.decodeQRCode(path)
                 }else{
+                    // 复制到剪贴板
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("错误的文件路径")
+                        .setMessage(FileUriUtils.getUriData(data?.data))
+                        .setPositiveButton("复制"){_, _ ->
+                            context?.apply {
+                                val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                                clipboardManager.setPrimaryClip(ClipData.newPlainText(FileUriUtils.getUriData(data?.data)
+                                    , FileUriUtils.getUriData(data?.data)))
+                            }
+                        }.setNegativeButton(android.R.string.cancel, null)
+                        .show()
                     context?.showToast("未获取到图片")
                 }
             }
         }
     }
 
+    // 在onStart、onStop中进行二维码扫描相机的开启和关闭
     override fun onStart() {
         super.onStart()
         context?.printLog("Fragment onStart")
-        viewBinding.qrcodeZxingView.startCamera() // 打开相机
-    }
-
-    override fun onResume() {
-        super.onResume()
-        context?.printLog("Fragment onResume")
-        viewBinding.qrcodeZxingView.showScanRect()
-        viewBinding.qrcodeZxingView.startSpot() // 开始识别
-    }
-
-    override fun onPause() {
-        super.onPause()
-        context?.printLog("Fragment onPause")
-        viewBinding.qrcodeZxingView.stopSpot() // 停止识别
+        viewBinding.qrcodeZxingView.startCamera()          // 打开相机
+        viewBinding.qrcodeZxingView.startSpotAndShowRect() // 开始识别
     }
 
     override fun onStop() {
-        super.onStop()
+        viewBinding.qrcodeZxingView.stopCamera() // 停止识别并关闭相机
         context?.printLog("Fragment onStop")
-        viewBinding.qrcodeZxingView.stopCamera() // 关闭相机
+        super.onStop()
     }
 
     // 显示或隐藏时恢复或暂停扫描
@@ -172,9 +195,9 @@ class QRCodeFragment : Fragment() {
         super.onHiddenChanged(hidden)
         if(viewBinding.qrcodeScanAgainBtn.visibility == View.GONE) {
             if(hidden) {
-                onPause()
+                viewBinding.qrcodeZxingView.stopSpot()
             }else{
-                onResume()
+                viewBinding.qrcodeZxingView.startSpot()
             }
         }
     }

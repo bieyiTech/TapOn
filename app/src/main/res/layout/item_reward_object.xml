@@ -10,78 +10,91 @@
             type="com.bieyitech.tapon.bmob.RewardObject" />
     </data>
 
-    <androidx.cardview.widget.CardView
-        android:orientation="vertical"
+    <com.bieyitech.tapon.widgets.ShadeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:foreground="?attr/selectableItemBackground"
-        tools:cardBackgroundColor="@color/light_gray"
-        app:contentPadding="16dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardElevation="0dp"
-        app:cardCornerRadius="16dp">
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        app:sl_radius="16dp"
+        app:sl_shadeLength="8dp"
+        app:sl_solidColor="@color/white"
+        app:sl_shadeColor="@color/light_gray"
+        >
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:foreground="?attr/selectableItemBackground"
+            tools:cardBackgroundColor="@color/light_gray"
+            app:contentPadding="8dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="16dp">
 
-            <ImageView
-                android:id="@+id/reward_object_img"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/coupon_example"
-                android:contentDescription="@string/img_desc"
-                />
-
-            <TextView
-                android:id="@+id/reward_object_name_tv"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="8dp"
-                android:textStyle="bold"
-                android:textSize="15sp"
-                android:text="@{rewardObject.name}"
-                android:textColor="@color/black"
-                tools:text="奖品名称"
-                />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/reward_object_intro_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                android:text="@{rewardObject.intro}"
-                android:singleLine="true"
-                android:ellipsize="end"
-                tools:text="@string/tool_short_text"
-                />
+                <ImageView
+                    android:id="@+id/reward_object_img"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/coupon_example"
+                    android:contentDescription="@string/img_desc"
+                    />
 
-            <TextView
-                android:id="@+id/reward_object_store_name_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:drawableStart="@drawable/ic_home_black_24dp"
-                android:drawablePadding="4dp"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                android:singleLine="true"
-                android:ellipsize="end"
-                android:text="@{@string/reward_object_store_name_hint(rewardObject.store.name)}"
-                tools:text="商铺：XXX"
-                />
+                <TextView
+                    android:id="@+id/reward_object_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:text="@{rewardObject.name}"
+                    android:textColor="@color/black"
+                    tools:text="奖品名称"
+                    />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/reward_object_intro_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:text="@{rewardObject.intro}"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    tools:text="@string/tool_short_text"
+                    />
 
-    </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/reward_object_store_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:drawableStart="@drawable/ic_home_black_24dp"
+                    android:drawablePadding="4dp"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:text="@{@string/reward_object_store_name_hint(rewardObject.store.name)}"
+                    tools:text="商铺：XXX"
+                    />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </com.bieyitech.tapon.widgets.ShadeLayout>
 
 </layout>

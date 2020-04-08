@@ -84,6 +84,7 @@ class PersonStoreObjectPage(private val personFragment: PersonFragment,
                     root.setOnClickListener {
                         ItemStoreObjectBinding.inflate(LayoutInflater.from(context)).apply {
                             storeObject = data
+                            storeObjectImg.setImageResource(RewardModelFactory.getRewardImg(data.imgCode))
                             storeObjectIntroTv.isSingleLine = false
                             storeObjectFindBtn.visibility = View.GONE
                         }.let {

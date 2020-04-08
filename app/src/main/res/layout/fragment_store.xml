@@ -52,17 +52,26 @@
             android:text="@string/store_store_rewards_title_default"
             app:stv_solidColor="@color/white"
             app:stv_shadeColor="@color/light_gray"
+            app:stv_shadeLength="1dp"
             />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/store_store_rewards_rv"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/store_store_rewards_srl"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            app:spanCount="2"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            />
+            android:layout_height="match_parent"
+            >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/store_store_rewards_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:spanCount="2"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </LinearLayout>
 

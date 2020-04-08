@@ -30,4 +30,12 @@
         <attr name="fullRoundCorner" format="boolean" /> <!-- 圆角是否完全 -->
     </declare-styleable>
 
+    <declare-styleable name="ShadeLayout">
+        <attr name="sl_radius" format="dimension" />
+        <attr name="sl_shadeColor" format="color" />
+        <attr name="sl_solidColor" format="color" />
+        <attr name="sl_shadeLength" format="dimension" />
+        <attr name="sl_yOffset" format="dimension" />
+    </declare-styleable>
+
 </resources>

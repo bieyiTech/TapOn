@@ -155,9 +155,12 @@ class MainActivity : AppCompatActivity() {
     fun enterStoreState(store: Store) {
         isInStoreState = true
         storeFragment = StoreFragment.newInstance(store).also {
-            supportFragmentManager.beginTransaction().replace(R.id.main_fragment_container, it).commit()
+            supportFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.fragment_open_enter, R.anim.fragment_open_exit)
+                .remove(qrCodeFragment!!)
+                .add(R.id.main_fragment_container, it)
+                .commit()
             qrCodeFragment = null
-            personFragment = null
         }
     }
 
@@ -167,9 +170,12 @@ class MainActivity : AppCompatActivity() {
     fun exitStoreState() {
         isInStoreState = false
         qrCodeFragment = QRCodeFragment().also {
-            supportFragmentManager.beginTransaction().replace(R.id.main_fragment_container, it).commit()
+            supportFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.fragment_open_enter, R.anim.fragment_open_exit)
+                .remove(storeFragment!!)
+                .add(R.id.main_fragment_container, it)
+                .commit()
             storeFragment = null
-            personFragment = null
         }
     }
 }

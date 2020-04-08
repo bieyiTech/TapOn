@@ -15,18 +15,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.cardview.widget.CardView
+        <com.bieyitech.tapon.widgets.ShadeLayout
             android:id="@+id/person_store_info_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             tools:cardBackgroundColor="@color/gray"
-            app:cardElevation="0dp"
-            app:contentPadding="8dp"
-            app:cardCornerRadius="8dp">
+            tools:sl_solidColor="@color/gray"
+            app:sl_shadeLength="8dp"
+            app:sl_solidColor="@color/white"
+            app:sl_shadeColor="@color/light_gray"
+            app:sl_radius="16dp"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -64,7 +67,7 @@
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.bieyitech.tapon.widgets.ShadeLayout>
 
         <com.bieyitech.tapon.widgets.ShadeTextView
             android:id="@+id/person_create_store_btn"
@@ -76,9 +79,8 @@
             android:layout_columnWeight="1"
             android:text="@string/person_create_store_hint"
             android:textColor="@color/white"
-            android:drawableTop="@drawable/ic_home_black_24dp"
+            android:drawableTop="@drawable/ic_ppf_shopper"
             android:drawablePadding="12dp"
-            android:drawableTint="@color/white"
             android:visibility="@{!taponUser.merchant ? View.VISIBLE : View.GONE}"
             app:stv_solidColor="@color/colorAccent"
             app:stv_shadeColor="@color/translucentColorAccent"
@@ -96,7 +98,7 @@
             android:layout_columnWeight="1"
             android:text="@string/person_modify_store_hint"
             android:textColor="@color/white"
-            android:drawableTop="@drawable/ic_lock"
+            android:drawableTop="@drawable/ic_ppf_store"
             android:drawablePadding="12dp"
             android:visibility="@{taponUser.merchant ? View.VISIBLE : View.GONE}"
             app:stv_solidColor="@color/colorAccent"
@@ -114,9 +116,8 @@
             android:textAlignment="center"
             android:text="@string/person_put_box_hint"
             android:textColor="@color/white"
-            android:drawableTop="@drawable/ic_home_black_24dp"
+            android:drawableTop="@drawable/ic_ppf_gift"
             android:drawablePadding="12dp"
-            android:drawableTint="@color/white"
             android:visibility="@{taponUser.merchant ? View.VISIBLE : View.GONE}"
             app:stv_solidColor="@color/colorAccent"
             app:stv_shadeColor="@color/translucentColorAccent"

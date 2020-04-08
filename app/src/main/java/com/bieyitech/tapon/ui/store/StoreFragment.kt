@@ -24,7 +24,7 @@ import com.bieyitech.tapon.widgets.WaitProgressDialog
 /**
  * 商铺界面
  */
-class StoreFragment : Fragment() {
+class StoreFragment private constructor(): Fragment() {
 
     companion object {
         private const val ARG_STORE_ID = "StoreID"
@@ -69,8 +69,12 @@ class StoreFragment : Fragment() {
         viewBinding.storeExitBtn.setOnClickListener {
             exitStoreFragment()
         }
+        // 下拉刷新
+        viewBinding.storeStoreRewardsSrl.setOnRefreshListener {
+            fetchStoreObjects()
+        }
+
         fillStoreContent()
-        fetchStoreObjects()
     }
 
     override fun onDestroyView() {
@@ -92,13 +96,13 @@ class StoreFragment : Fragment() {
      * 查询商铺奖品并填充
      */
     private fun fetchStoreObjects() {
-        val waitProgressDialog = WaitProgressDialog(requireContext()).apply { show() }
+        viewBinding.storeStoreRewardsSrl.isRefreshing = true
         BmobQuery<StoreObject>().apply {
             addWhereEqualTo("store", mStore)
             include("store")
         }.findObjects(object : FindListener<StoreObject>() {
             override fun done(p0: MutableList<StoreObject>?, p1: BmobException?) {
-                waitProgressDialog.dismiss()
+                viewBinding.storeStoreRewardsSrl.isRefreshing = false
                 if(p1 == null && p0 != null){
                     fillStoreObjectsContent(p0)
                 }else{
@@ -130,7 +134,6 @@ class StoreFragment : Fragment() {
                     storeObject = data
                     storeObjectImg.setImageResource(RewardModelFactory.getRewardImg(data.imgCode))
 
-                    storeObjectOutline.visibility = View.VISIBLE
                     storeObjectFindBtn.enableOnPressScaleTouchListener {
                         startActivity(FindTreasureBoxActivity.newIntent(requireContext(), data))
                     }

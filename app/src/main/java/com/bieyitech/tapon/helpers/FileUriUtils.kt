@@ -127,6 +127,23 @@ class FileUriUtils {
                 """.trimIndent())
         }
 
+        fun getUriData(uri: Uri?): String {
+            return if(uri == null){
+                ""
+            }else {
+                """
+                    文件Uri信息：uri: ${uri},
+                    path: ${uri.path},
+                    scheme: ${uri.scheme},
+                    authority: ${uri.authority},
+                    host: ${uri.host}, 
+                    port: ${uri.port},
+                    encodePath: ${uri.encodedPath}, 
+                    query: ${uri.encodedQuery},
+                """.trimIndent()
+            }
+        }
+
         private fun printLog(msg: String) = Log.d("FileUriUtils", msg)
     }
 }
