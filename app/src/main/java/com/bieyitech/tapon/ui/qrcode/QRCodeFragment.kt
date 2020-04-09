@@ -1,7 +1,7 @@
 /**
  * @author GizFei
  */
-package com.bieyitech.tapon.ui
+package com.bieyitech.tapon.ui.qrcode
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -15,10 +15,8 @@ import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import cn.bingoogolapple.qrcode.core.BarcodeType
 import cn.bingoogolapple.qrcode.core.QRCodeView
@@ -26,7 +24,6 @@ import cn.bmob.v3.BmobQuery
 import cn.bmob.v3.exception.BmobException
 import cn.bmob.v3.listener.QueryListener
 import com.bieyitech.tapon.MainActivity
-import com.bieyitech.tapon.R
 import com.bieyitech.tapon.bmob.Store
 import com.bieyitech.tapon.databinding.FragmentQrcodeBinding
 import com.bieyitech.tapon.helpers.FileUriUtils

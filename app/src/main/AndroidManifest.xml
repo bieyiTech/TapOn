@@ -79,6 +79,9 @@
             android:authorities="com.bieyitech.tapon.BmobContentProvider"
             android:exported="false">
         </provider>
+
+        <!-- 后台下载更新服务 -->
+        <service android:name=".update.UpdateService" />
     </application>
 
 </manifest>
