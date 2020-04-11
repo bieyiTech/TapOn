@@ -15,13 +15,18 @@ import androidx.core.util.forEach
 import androidx.databinding.adapters.ViewBindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
 import cn.bmob.v3.BmobUser
 import com.bieyitech.tapon.LoginActivity
+import com.bieyitech.tapon.MainActivity
 import com.bieyitech.tapon.R
 import com.bieyitech.tapon.bmob.Store
 import com.bieyitech.tapon.bmob.TaponUser
 import com.bieyitech.tapon.databinding.FragmentPersonBinding
 import com.bieyitech.tapon.helpers.printLog
+import com.bieyitech.tapon.update.CheckUpdateThread
+import com.bieyitech.tapon.update.TapOnUpdateListener
+import com.bieyitech.tapon.update.UpdateVersionInfo
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class PersonFragment : Fragment() {
@@ -51,8 +56,15 @@ class PersonFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // 初始化ViewPager，并与TabLayout关联
         personViewPagerAdapter = PersonViewPagerAdapter()
-        viewBinding.personViewPager.adapter = personViewPagerAdapter
-        viewBinding.personTabLayout.setupWithViewPager(viewBinding.personViewPager)
+        with(viewBinding.personViewPager) {
+            adapter = personViewPagerAdapter
+            addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+                override fun onPageScrollStateChanged(state: Int) {}
+                override fun onPageSelected(position: Int) { personViewPagerAdapter.onPageSelected(position) }
+                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+            })
+            viewBinding.personTabLayout.setupWithViewPager(this)
+        }
 
         setupButtonClickListeners()
         fillUserInfo()
@@ -61,9 +73,9 @@ class PersonFragment : Fragment() {
         networkCallback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
                 context?.printLog("连接上网络，刷新页面")
-                activity?.runOnUiThread {
-                    personViewPagerAdapter.refreshAllPages()    // 在主线程刷新所有页面
-                }
+                // activity?.runOnUiThread {
+                    // personViewPagerAdapter.refreshAllPages()    // 在主线程刷新所有页面
+                // }
             }
         }
         connectivityManager.registerDefaultNetworkCallback(networkCallback)
@@ -89,6 +101,12 @@ class PersonFragment : Fragment() {
                     startActivity(LoginActivity.newIntent(requireContext()))
                     requireActivity().finish()
                 }.show()
+        }
+        viewBinding.personUpdateBtn.setOnClickListener {
+            // 检查应用更新
+            CheckUpdateThread(requireContext()).apply {
+                onUpdateListener = TapOnUpdateListener(requireContext(), true)
+            }.start()
         }
     }
 
@@ -127,6 +145,11 @@ class PersonFragment : Fragment() {
             }
         }
 
+        // 第pos页被选中（显示）
+        fun onPageSelected(pos: Int) {
+            cachePages[pos].initData()
+        }
+
         override fun getCount(): Int = titles.size
 
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
@@ -137,7 +160,9 @@ class PersonFragment : Fragment() {
             }
             val basePage =  when(position) {
                 0 -> {
-                    PersonRewardObjectPage(this@PersonFragment, requireContext())
+                    PersonRewardObjectPage(this@PersonFragment, requireContext()).apply {
+                        initData()
+                    }
                 }
                 1 -> {
                     PersonStorePage(this@PersonFragment, requireContext())

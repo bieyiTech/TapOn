@@ -32,6 +32,15 @@
         <item name="android:statusBarColor">@color/white</item>
     </style>
 
+    <style name="AppTheme.NoDisplay" parent="AppTheme">
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowNoDisplay">true</item>
+    </style>
+
     <!-- 自定义Dialog -->
     <style name="CustomDialog" parent="Theme.MaterialComponents.Light.Dialog">
         <item name="colorPrimary">@color/colorPrimary</item>

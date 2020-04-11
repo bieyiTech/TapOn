@@ -20,6 +20,8 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <!--允许读取手机状态 用于创建BmobInstallation-->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 开启前台服务 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <!-- GLES >= 3.0. -->
     <uses-feature android:glEsVersion="0x00030000" android:required="true" />
 
@@ -74,6 +76,10 @@
             tools:ignore="LockedOrientationActivity"
             />
 
+        <!-- 不显示界面的取消下载的活动 -->
+        <activity android:name=".update.CancelDownloadActivity"
+            android:theme="@style/AppTheme.NoDisplay" />
+
         <provider
             android:name="cn.bmob.v3.util.BmobContentProvider"
             android:authorities="com.bieyitech.tapon.BmobContentProvider"
@@ -82,6 +88,17 @@
 
         <!-- 后台下载更新服务 -->
         <service android:name=".update.UpdateService" />
+        <service android:name=".update.UpdateIntentService" />
+        
+        <provider
+            android:authorities="com.bieyitech.tapon.FileProvider"
+            android:name="androidx.core.content.FileProvider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

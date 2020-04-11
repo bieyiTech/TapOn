@@ -16,12 +16,10 @@ import com.bieyitech.tapon.helpers.showToast
 import com.bieyitech.tapon.ui.qrcode.QRCodeFragment
 import com.bieyitech.tapon.ui.person.PersonFragment
 import com.bieyitech.tapon.ui.store.StoreFragment
-import com.bieyitech.tapon.update.CheckUpdateThread
-import com.bieyitech.tapon.update.UpdateService
-import com.bieyitech.tapon.update.UpdateVersionInfo
+import com.bieyitech.tapon.update.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class MainActivity : AppCompatActivity(), CheckUpdateThread.OnUpdateListener {
+class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val PERMISSION_REQUEST_CODE = 0
@@ -65,7 +63,7 @@ class MainActivity : AppCompatActivity(), CheckUpdateThread.OnUpdateListener {
 
             // 检查更新
             CheckUpdateThread(this).apply {
-                onUpdateListener = this@MainActivity
+                onUpdateListener = TapOnUpdateListener(this@MainActivity, false)
             }.start()
         }
     }
@@ -186,25 +184,6 @@ class MainActivity : AppCompatActivity(), CheckUpdateThread.OnUpdateListener {
                 .add(R.id.main_fragment_container, it)
                 .commit()
             storeFragment = null
-        }
-    }
-
-    /**
-     * 更新Apk
-     */
-    override fun onUpdate(updateVersionInfo: UpdateVersionInfo?) {
-        if(updateVersionInfo != null) { // 下载更新
-            MaterialAlertDialogBuilder(this)
-                .setTitle("更新信息")
-                .setMessage(updateVersionInfo.updateInfo)
-                .setPositiveButton("下载更新"){_, _ ->
-                    // 开启后台下载
-                    startService(UpdateService.newIntent(this, updateVersionInfo))
-                }
-                .setNeutralButton("下次提醒", null)
-                .setNegativeButton("忽略本次更新"){_, _ ->
-
-                }.show()
         }
     }
 }

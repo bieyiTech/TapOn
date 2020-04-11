@@ -28,7 +28,6 @@ class PersonStoreObjectPage(private val personFragment: PersonFragment,
     private val mViewBinding = PersonTabStoreObjectBinding.inflate(LayoutInflater.from(context))
 
     init {
-        fetchStoreObjects()
         mViewBinding.personStoreObjectSrl.setOnRefreshListener {
             fetchStoreObjects()
         }
@@ -37,6 +36,10 @@ class PersonStoreObjectPage(private val personFragment: PersonFragment,
     override fun getView(): View = mViewBinding.root
 
     override fun refreshPage() {
+        fetchStoreObjects()
+    }
+
+    override fun initDataImpl() {
         fetchStoreObjects()
     }
 

@@ -22,4 +22,14 @@ abstract class BasePersonTabPage {
     // 刷新页面
     open fun refreshPage(){}
 
+    // 用于懒加载数据
+    protected var dataInitialized = false
+    fun initData() {
+        if(!dataInitialized){
+            initDataImpl()
+            dataInitialized = true
+        }
+    }
+    open protected fun initDataImpl() {}
+
 }

@@ -28,9 +28,26 @@
             android:contentDescription="@string/img_desc"
             android:tooltipText="登出"
             app:sib_solidColor="@color/white"
-            app:sib_shadeColor="@color/gray"
+            app:sib_shadeColor="@color/dark_gray"
             app:sib_type="corner"
-            app:sib_shadeLength="1dp"
+            app:sib_shadeLength="2dp"
+            />
+
+        <com.bieyitech.tapon.widgets.ShadeImageButton
+            android:id="@+id/person_update_btn"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:src="@drawable/ic_update"
+            android:tint="@color/black"
+            android:rotation="180"
+            android:scaleType="centerInside"
+            android:layout_marginStart="64dp"
+            android:contentDescription="@string/img_desc"
+            android:tooltipText="检查更新"
+            app:sib_solidColor="@color/white"
+            app:sib_shadeColor="@color/dark_gray"
+            app:sib_type="corner"
+            app:sib_shadeLength="2dp"
             />
 
         <LinearLayout

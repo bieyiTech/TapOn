@@ -36,8 +36,6 @@ class PersonStorePage(private val personFragment: PersonFragment,
     private lateinit var mStore: Store
 
     init {
-        fetchStoreInfo()
-
         mViewBinding.personCreateStoreBtn.enableOnPressScaleTouchListener {
             createStore()
         }
@@ -53,6 +51,8 @@ class PersonStorePage(private val personFragment: PersonFragment,
             saveStoreQrCodeImg()
             true
         }
+        mViewBinding.personStoreSrl.setOnRefreshListener { refreshPage() }
+        enableView(false)
     }
 
     override fun getView(): View = mViewBinding.root
@@ -61,16 +61,30 @@ class PersonStorePage(private val personFragment: PersonFragment,
         fetchStoreInfo()
     }
 
+    override fun initDataImpl() {
+        fetchStoreInfo()
+    }
+
+    private fun enableView(enabled: Boolean) {
+        with(mViewBinding) {
+            personCreateStoreBtn.isEnabled =  enabled
+            personPutBoxBtn.isEnabled = enabled
+            personDecorateStoreBtn.isEnabled = enabled
+            personStoreQrcode.isEnabled = enabled
+        }
+    }
+
     /**
      * 获取商铺信息
      */
     private fun fetchStoreInfo() {
-        // val waitProgressDialog = WaitProgressDialog(context).apply { show() }
+        mViewBinding.personStoreSrl.isRefreshing = true
+
         val storeQuery = BmobQuery<Store>()
         storeQuery.addWhereEqualTo("user", taponUser)
         storeQuery.findObjects(object : FindListener<Store>() {
             override fun done(p0: MutableList<Store>?, p1: BmobException?) {
-                // waitProgressDialog.dismiss()
+                mViewBinding.personStoreSrl.isRefreshing = false
                 if(p1 == null && p0 != null && p0.isNotEmpty()){
                     if(p0.size > 1){
                         context.showToast("该用户商铺数量大于1")
@@ -78,13 +92,13 @@ class PersonStorePage(private val personFragment: PersonFragment,
                     }
                     mStore = p0[0]
                     context.printLog("商铺名称：${mStore.name}")
+                    fillStoreInfo()
                 }else{
                     if(taponUser.isMerchant()){
                         context.showToast(if(p1?.errorCode == 9016) "网络不可用" else "获取商铺信息失败")
                     }
                     context.printLog("获取商铺信息失败：$p1")
                 }
-                fillStoreInfo()
             }
         })
     }
@@ -93,6 +107,7 @@ class PersonStorePage(private val personFragment: PersonFragment,
      * 填充商铺信息
      */
     private fun fillStoreInfo() {
+        enableView(true)
         mViewBinding.taponUser = taponUser
         if(taponUser.isMerchant()) {
             if (::mStore.isInitialized) {

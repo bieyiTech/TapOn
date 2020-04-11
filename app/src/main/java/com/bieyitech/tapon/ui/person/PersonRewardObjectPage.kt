@@ -25,7 +25,6 @@ class PersonRewardObjectPage(private val personFragment: PersonFragment,
     private val mViewBinding = PersonTabMyRewardBinding.inflate(LayoutInflater.from(context))
 
     init {
-        fetchRewardObjects()
         mViewBinding.personRewardObjectSrl.setOnRefreshListener {// 下拉刷新
             fetchRewardObjects()
         }
@@ -34,6 +33,10 @@ class PersonRewardObjectPage(private val personFragment: PersonFragment,
     override fun getView(): View = mViewBinding.root
 
     override fun refreshPage() {
+        fetchRewardObjects()
+    }
+
+    override fun initDataImpl() {
         fetchRewardObjects()
     }
 
